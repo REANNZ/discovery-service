@@ -194,7 +194,8 @@ RSpec.describe DiscoveryService::Application do
           it 'gets escaped' do
             expect(last_response.body)
               .to include(CGI.escapeHTML(
-                            existing_entity[:names].first[:value]))
+                            existing_entity[:names].first[:value]
+              ))
           end
         end
       end
@@ -225,7 +226,8 @@ RSpec.describe DiscoveryService::Application do
         it 'shows the idp names' do
           expect(last_response.body)
             .to include(CGI.escapeHTML(
-                          existing_entity[:names].first[:value]))
+                          existing_entity[:names].first[:value]
+            ))
           expect(last_response.body)
             .to include(CGI.escapeHTML(other_entity[:names].first[:value]))
         end
@@ -561,12 +563,14 @@ RSpec.describe DiscoveryService::Application do
 
           let(:multiple_idp_selections) do
             { other_group => other_idp }.merge(
-              group_name => entity_id)
+              group_name => entity_id
+            )
           end
 
           let(:expected_encoded_cookie) do
             URI.encode_www_form_component(
-              JSON.generate(other_group => other_idp))
+              JSON.generate(other_group => other_idp)
+            )
           end
 
           def expected_cookie
@@ -750,8 +754,7 @@ RSpec.describe DiscoveryService::Application do
         names: idp[:names],
         logos: idp[:logos],
         tags: idp[:tags],
-        single_sign_on_endpoints: idp[:single_sign_on_endpoints]
-      }
+        single_sign_on_endpoints: idp[:single_sign_on_endpoints] }
     end
 
     def run
@@ -835,7 +838,8 @@ RSpec.describe DiscoveryService::Application do
         expect(last_response.body)
           .to eq(JSON.generate(identity_providers: [
                                  { entity_id: idp[:entity_id],
-                                   tags: [idp[:tags].first] }]))
+                                   tags: [idp[:tags].first] }
+                               ]))
       end
     end
 
@@ -1081,7 +1085,9 @@ RSpec.describe DiscoveryService::Application do
           let(:encoded_cookie) do
             URI.encode_www_form_component(
               JSON.generate(other_selected_organisation_hash.merge(
-                              cookie_as_hash)))
+                              cookie_as_hash
+              ))
+            )
           end
 
           it 'maintains the idp for the other group' do

@@ -19,8 +19,7 @@ RSpec.describe DiscoveryService::Metadata::Updater do
                   tuakiri:
                       { filters: [%w(discovery tuakiri)],
                         tag_groups:  false } },
-        environment: { name: Faker::Lorem.word, status: Faker::Internet.url }
-      }
+        environment: { name: Faker::Lorem.word, status: Faker::Internet.url } }
     end
 
     before do
@@ -235,7 +234,8 @@ RSpec.describe DiscoveryService::Metadata::Updater do
             run
             expect(redis.get('pages:group:tuakiri'))
               .to include(CGI.escapeHTML(
-                            unchanged_tuakiri_idp[:names].first[:value]))
+                            unchanged_tuakiri_idp[:names].first[:value]
+              ))
           end
 
           it 'only updates the ttl for entities contained in the response' do
