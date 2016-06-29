@@ -20,7 +20,8 @@ RSpec.describe DiscoveryService::Renderer::PageRenderer do
     subject do
       klass.new.render(:group,
                        DiscoveryService::Renderer::Model::Group.new(
-                         idps, sps, tag_groups), environment)
+                         idps, sps, tag_groups
+                       ), environment)
     end
 
     it 'includes the layout' do
