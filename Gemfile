@@ -54,5 +54,5 @@ group :development, :test do
   gem 'terminal-notifier-guard', require: false
 
   gem 'aaf-gumboot', git: 'https://github.com/ausaccessfed/aaf-gumboot',
-                     branch: 'develop'
+                     branch: 'bugfix/strap-safe-load-symbols'
 end

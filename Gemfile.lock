@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/ausaccessfed/aaf-gumboot
-  revision: 9d2268a9fa536e45cbed4589ef98bf1860c45265
-  branch: develop
+  revision: e965a484049ac1fe2532776227fc9bef3633bb98
+  branch: bugfix/strap-safe-load-symbols
   specs:
     aaf-gumboot (1.0.0.pre.alpha.2)
       accession (~> 1.0)
