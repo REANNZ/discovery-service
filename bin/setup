@@ -19,4 +19,4 @@ puts "\n== Creating log directory =="
 Dir.mkdir 'log' unless File.exist?('log')
 
 puts "\n== Cleaning logs =="
-clean_logs
+system 'rm -f log/*'
