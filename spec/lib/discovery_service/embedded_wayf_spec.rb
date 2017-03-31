@@ -94,8 +94,10 @@ RSpec.describe DiscoveryService::EmbeddedWAYF do
       end
 
       let(:tagged_entities) do
-        expected_entities.map { |e| e.merge(tags: %w(idp aaf)) } +
-          extra_entities.map { |e| e.merge(tags: %w(sp aaf)) }
+        [
+          *expected_entities.map { |e| e.merge(tags: %w(idp aaf)) },
+          *extra_entities.map { |e| e.merge(tags: %w(sp aaf)) }
+        ]
       end
 
       it 'excludes the SP entity' do

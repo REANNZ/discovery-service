@@ -28,6 +28,7 @@ module DiscoveryService
       "var idp_entities = #{JSON.generate(entities)};"
     end
 
+    # rubocop:disable Style/IndentHeredoc
     def embedded_wayf_disclaimer
       <<-EOF
 /* The AAF Embedded WAYF is deprecated and will be removed during 2016. New
@@ -38,6 +39,7 @@ module DiscoveryService
  */
       EOF
     end
+    # rubocop:enable Style/IndentHeredoc
 
     EMBEDDED_WAYF_LOGIC =
       File.read(File.expand_path('../embedded-wayf.js', __FILE__))
