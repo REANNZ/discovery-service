@@ -55,7 +55,7 @@ RSpec.describe DiscoveryService::Renderer::Helpers::Group do
   describe '#all_tag?' do
     subject { instance.all_tag?(tag_groups) }
     let(:other_tag_groups) do
-      tag_groups.select { |t| t[:tag] != '*' }
+      tag_groups.reject { |t| t[:tag] == '*' }
     end
 
     let(:all_tag_group) do
