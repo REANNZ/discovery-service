@@ -114,7 +114,7 @@ RSpec.describe DiscoveryService::EventConsignment do
 
         it 'leaves the queue intact' do
           expect { run }.to raise_error('Nope')
-            .and not_change { redis.llen('audit') }
+            .and(not_change { redis.llen('audit') })
         end
 
         it 'removes the identifier from the in progress list' do
@@ -164,7 +164,7 @@ RSpec.describe DiscoveryService::EventConsignment do
 
         it 'leaves the queue intact' do
           expect { run }.to raise_error('Nope')
-            .and not_change { redis.llen('audit') }
+            .and(not_change { redis.llen('audit') })
         end
 
         it 'removes the identifier from the in progress list' do
