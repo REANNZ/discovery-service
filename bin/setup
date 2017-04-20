@@ -12,8 +12,8 @@ require 'gumboot/strap'
 include Gumboot::Strap
 
 puts "\n== Installing configuration files =="
-update_local_configuration %w(discovery_service.yml)
-link_global_configuration %w(event_encryption_key.pem)
+update_local_configuration %w[discovery_service.yml]
+link_global_configuration %w[event_encryption_key.pem]
 
 puts "\n== Creating log directory =="
 Dir.mkdir 'log' unless File.exist?('log')
