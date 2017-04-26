@@ -25,8 +25,8 @@ RSpec.describe DiscoveryService::Metadata::SAMLServiceClient do
       let(:response_body) do
         {
           entities: [
-            build_idp_data(%w(discovery idp aaf vho)),
-            build_sp_data(%w(aaf sp))
+            build_idp_data(%w[discovery idp aaf vho]),
+            build_sp_data(%w[aaf sp])
           ]
         }
       end

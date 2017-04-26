@@ -28,16 +28,16 @@ DiscoveryService.instance_eval do
     groups: {
       tuakiri: {
         filters: [
-          %w(tuakiri other)
+          %w[tuakiri other]
         ],
         tag_groups: false
       },
       aaf: {
         filters: [
-          %w(discovery aaf),
-          %w(sp aaf),
-          %w(idp aaf),
-          %w(tuakiri)
+          %w[discovery aaf],
+          %w[sp aaf],
+          %w[idp aaf],
+          %w[tuakiri]
         ],
         tag_groups: [
           { name: 'Australia', tag: 'aaf' },
@@ -46,9 +46,9 @@ DiscoveryService.instance_eval do
       },
       edugain: {
         filters: [
-          %w(discovery aaf),
-          %w(discovery tuakiri),
-          %w(discovery edugain)
+          %w[discovery aaf],
+          %w[discovery tuakiri],
+          %w[discovery edugain]
         ],
         tag_groups: [
           { name: 'Australia', tag: 'aaf' },

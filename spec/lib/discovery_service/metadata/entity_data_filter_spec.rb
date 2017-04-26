@@ -26,7 +26,7 @@ RSpec.describe DiscoveryService::Metadata::EntityDataFilter do
     end
 
     context 'with an empty tag config' do
-      let(:entity_data) { build_idp_data(%w(discovery idp aaf vho)) }
+      let(:entity_data) { build_idp_data(%w[discovery idp aaf vho]) }
       let(:tag_config) { {} }
 
       it 'filters everything out' do
@@ -35,9 +35,9 @@ RSpec.describe DiscoveryService::Metadata::EntityDataFilter do
     end
 
     context 'with one tag configured' do
-      let(:tag_config) { { aaf: [%w(discovery aaf)] } }
+      let(:tag_config) { { aaf: [%w[discovery aaf]] } }
       context 'and one matching entity' do
-        let(:matching_entity) { build_idp_data(%w(discovery idp aaf vho)) }
+        let(:matching_entity) { build_idp_data(%w[discovery idp aaf vho]) }
         let(:entity_data) { [matching_entity] }
         it 'returns the matching entity' do
           expect(subject).to eq(aaf: [matching_entity])
@@ -45,8 +45,8 @@ RSpec.describe DiscoveryService::Metadata::EntityDataFilter do
       end
 
       context 'and one matching entity amongst many' do
-        let(:matching_entity) { build_idp_data(%w(discovery idp aaf vho)) }
-        let(:other_entity) { build_idp_data(%w(random idp aaf vho)) }
+        let(:matching_entity) { build_idp_data(%w[discovery idp aaf vho]) }
+        let(:other_entity) { build_idp_data(%w[random idp aaf vho]) }
         let(:entity_data) { [matching_entity, other_entity] }
 
         it 'returns the matching entity only' do
@@ -55,8 +55,8 @@ RSpec.describe DiscoveryService::Metadata::EntityDataFilter do
       end
 
       context 'and no matching entities amongst many' do
-        let(:first_entity) { build_idp_data(%w(discovery idp tuakiri vho)) }
-        let(:second_entity) { build_idp_data(%w(random idp tuakiri vho)) }
+        let(:first_entity) { build_idp_data(%w[discovery idp tuakiri vho]) }
+        let(:second_entity) { build_idp_data(%w[random idp tuakiri vho]) }
         let(:entity_data) { [first_entity, second_entity] }
 
         it 'returns a hash with empty entities' do
@@ -65,9 +65,9 @@ RSpec.describe DiscoveryService::Metadata::EntityDataFilter do
       end
 
       context 'and multiple matching entities' do
-        let(:first_match)  { build_idp_data(%w(discovery idp aaf vho)) }
-        let(:second_match) { build_idp_data(%w(discovery idp aaf vho)) }
-        let(:other_entity) { build_idp_data(%w(discovery idp tuakiri vho)) }
+        let(:first_match)  { build_idp_data(%w[discovery idp aaf vho]) }
+        let(:second_match) { build_idp_data(%w[discovery idp aaf vho]) }
+        let(:other_entity) { build_idp_data(%w[discovery idp tuakiri vho]) }
         let(:entity_data) do
           [first_match, second_match, other_entity]
         end
@@ -81,13 +81,13 @@ RSpec.describe DiscoveryService::Metadata::EntityDataFilter do
     context 'with multiple tags configured' do
       let(:tag_config) do
         {
-          aaf: [%w(discovery aaf)],
-          edugain: [%w(discovery aaf), %w(discovery edugain)]
+          aaf: [%w[discovery aaf]],
+          edugain: [%w[discovery aaf], %w[discovery edugain]]
         }
       end
       context 'and one matching entity' do
         let(:matching_entity) do
-          build_idp_data(%w(discovery idp edugain vho))
+          build_idp_data(%w[discovery idp edugain vho])
         end
         let(:entity_data) { [matching_entity] }
         it 'returns the matching entity' do
@@ -96,8 +96,8 @@ RSpec.describe DiscoveryService::Metadata::EntityDataFilter do
       end
 
       context 'and one matching entity amongst many' do
-        let(:matching_entity) { build_idp_data(%w(discovery idp aaf vho)) }
-        let(:other_entity) { build_idp_data(%w(random idp aaf vho)) }
+        let(:matching_entity) { build_idp_data(%w[discovery idp aaf vho]) }
+        let(:other_entity) { build_idp_data(%w[random idp aaf vho]) }
         let(:entity_data) { [matching_entity, other_entity] }
 
         it 'returns the matching entity only' do
@@ -107,8 +107,8 @@ RSpec.describe DiscoveryService::Metadata::EntityDataFilter do
       end
 
       context 'and no matching entities amongst many' do
-        let(:first_entity) { build_idp_data(%w(discovery idp tuakiri vho)) }
-        let(:second_entity) { build_idp_data(%w(random idp aaf vho)) }
+        let(:first_entity) { build_idp_data(%w[discovery idp tuakiri vho]) }
+        let(:second_entity) { build_idp_data(%w[random idp aaf vho]) }
         let(:entity_data) { [first_entity, second_entity] }
 
         it 'returns a hash with empty entities' do
@@ -117,10 +117,10 @@ RSpec.describe DiscoveryService::Metadata::EntityDataFilter do
       end
 
       context 'and multiple matching entities' do
-        let(:first_match) { build_idp_data(%w(discovery idp aaf vho)) }
-        let(:second_match) { build_idp_data(%w(discovery idp aaf vho)) }
-        let(:third_match) { build_idp_data(%w(discovery idp edugain vho)) }
-        let(:other_entity) { build_idp_data(%w(discovery idp tuakiri vho)) }
+        let(:first_match) { build_idp_data(%w[discovery idp aaf vho]) }
+        let(:second_match) { build_idp_data(%w[discovery idp aaf vho]) }
+        let(:third_match) { build_idp_data(%w[discovery idp edugain vho]) }
+        let(:other_entity) { build_idp_data(%w[discovery idp tuakiri vho]) }
         let(:entity_data) do
           [first_match, second_match, third_match, other_entity]
         end

@@ -27,8 +27,8 @@ module DiscoveryService
     attr_reader :redis
 
     set :assets_precompile,
-        %w(application.js style-rich.css style-basic.css
-           *.eot *.woff *.woff2 *.ttf)
+        %w[application.js style-rich.css style-basic.css
+           *.eot *.woff *.woff2 *.ttf]
     set :assets_css_compressor, :sass
     set :assets_js_compressor, :uglifier
 

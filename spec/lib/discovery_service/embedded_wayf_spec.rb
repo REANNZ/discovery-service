@@ -35,7 +35,7 @@ RSpec.describe DiscoveryService::EmbeddedWAYF do
     end
 
     let(:tagged_entities) do
-      expected_entities.map { |e| e.merge(tags: %w(idp)) }
+      expected_entities.map { |e| e.merge(tags: %w[idp]) }
     end
 
     let(:entities_as_hash) do
@@ -95,8 +95,8 @@ RSpec.describe DiscoveryService::EmbeddedWAYF do
 
       let(:tagged_entities) do
         [
-          *expected_entities.map { |e| e.merge(tags: %w(idp aaf)) },
-          *extra_entities.map { |e| e.merge(tags: %w(sp aaf)) }
+          *expected_entities.map { |e| e.merge(tags: %w[idp aaf]) },
+          *extra_entities.map { |e| e.merge(tags: %w[sp aaf]) }
         ]
       end
 
