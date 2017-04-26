@@ -1,5 +1,6 @@
 require 'logger'
 require 'json'
+require 'net/http'
 
 module DiscoveryService
   module Metadata
