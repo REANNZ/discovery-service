@@ -177,7 +177,8 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
           expect(subject).to eq([{ entity_id: idp[:entity_id],
                                    tags: idp[:tags],
                                    name: CGI.escapeHTML(
-                                     idp[:names].first[:value]),
+                                     idp[:names].first[:value]
+                                   ),
                                    logo_url: idp[:logos].first[:url],
                                    geolocations: idp[:geolocations] }])
         end
@@ -186,18 +187,19 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
       context 'generated sps' do
         subject { run.sps }
         it 'builds sp as expected' do
-          expect(subject).to eq([{ entity_id: sp[:entity_id],
-                                   tags: sp[:tags],
-                                   name: CGI.escapeHTML(
-                                     sp[:names].first[:value]),
-                                   logo_url: sp[:logos].first[:url],
-                                   description: CGI.escapeHTML(
-                                     sp[:descriptions].first[:value]),
-                                   information_url:
-                                       sp[:information_urls].first[:url],
-                                   privacy_statement_url:
-                                       sp[:privacy_statement_urls].first[:url]
-                                 }])
+          expect(subject)
+            .to eq([{ entity_id: sp[:entity_id],
+                      tags: sp[:tags],
+                      name: CGI.escapeHTML(
+                        sp[:names].first[:value]
+                      ),
+                      logo_url: sp[:logos].first[:url],
+                      description: CGI.escapeHTML(
+                        sp[:descriptions].first[:value]
+                      ),
+                      information_url: sp[:information_urls].first[:url],
+                      privacy_statement_url:
+                        sp[:privacy_statement_urls].first[:url] }])
         end
       end
     end
@@ -238,7 +240,8 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
                       name: CGI.escapeHTML(sp1[:names].first[:value]),
                       logo_url: sp1[:logos].first[:url],
                       description: CGI.escapeHTML(
-                        sp1[:descriptions].first[:value]),
+                        sp1[:descriptions].first[:value]
+                      ),
                       information_url: sp1[:information_urls].first[:url],
                       privacy_statement_url:
                           sp1[:privacy_statement_urls].first[:url] },
@@ -247,7 +250,8 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
                       name: CGI.escapeHTML(sp2[:names].first[:value]),
                       logo_url: sp2[:logos].first[:url],
                       description: CGI.escapeHTML(
-                        sp2[:descriptions].first[:value]),
+                        sp2[:descriptions].first[:value]
+                      ),
                       information_url: sp2[:information_urls].first[:url],
                       privacy_statement_url:
                           sp2[:privacy_statement_urls].first[:url] }])
@@ -275,7 +279,8 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
                     { entity_id: idp_with_matching_lang[:entity_id],
                       tags: idp_with_matching_lang[:tags],
                       name: CGI.escapeHTML(
-                        idp_with_matching_lang[:names].first[:value]),
+                        idp_with_matching_lang[:names].first[:value]
+                      ),
                       logo_url: idp_with_matching_lang[:logos].first[:url],
                       geolocations: idp_with_matching_lang[:geolocations] }])
         end
@@ -319,10 +324,11 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
                       logo_url: CGI.escapeHTML(idp[:logos].first[:url]),
                       geolocations:
                            [{ longitude: CGI.escapeHTML(
-                             idp[:geolocations].first[:longitude]),
+                             idp[:geolocations].first[:longitude]
+                           ),
                               latitude: CGI.escapeHTML(
-                                idp[:geolocations].first[:latitude]) }]
-                    }])
+                                idp[:geolocations].first[:latitude]
+                              ) }] }])
         end
       end
 
@@ -333,16 +339,18 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
             .to eq([{ entity_id: CGI.escapeHTML(sp[:entity_id]),
                       tags: sp[:tags].map { |t| CGI.escapeHTML(t) },
                       name: CGI.escapeHTML(
-                        sp[:names].first[:value]),
+                        sp[:names].first[:value]
+                      ),
                       logo_url: CGI.escapeHTML(sp[:logos].first[:url]),
                       description: CGI.escapeHTML(
-                        sp[:descriptions].first[:value]),
+                        sp[:descriptions].first[:value]
+                      ),
                       information_url:
                              CGI.escapeHTML(sp[:information_urls].first[:url]),
                       privacy_statement_url:
                              CGI.escapeHTML(
-                               sp[:privacy_statement_urls].first[:url])
-                       }])
+                               sp[:privacy_statement_urls].first[:url]
+                             ) }])
         end
       end
     end

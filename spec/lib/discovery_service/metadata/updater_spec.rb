@@ -6,21 +6,20 @@ RSpec.describe DiscoveryService::Metadata::Updater do
     let(:config) do
       { saml_service: { url: url },
         groups: { aaf:
-                      { filters: [%w(discovery aaf)],
+                      { filters: [%w[discovery aaf]],
                         tag_groups:
                               [{ name: 'Australia', tag: 'aaf' },
                                { name: 'New Zealand', tag: 'tuakiri' }] },
                   edugain:
-                      { filters: [%w(discovery edugain)],
+                      { filters: [%w[discovery edugain]],
                         tag_groups:
                                   [{ name: 'International', tag: '*' },
                                    { name: 'Australia', tag: 'aaf' },
                                    { name: 'New Zealand', tag: 'tuakiri' }] },
                   tuakiri:
-                      { filters: [%w(discovery tuakiri)],
+                      { filters: [%w[discovery tuakiri]],
                         tag_groups:  false } },
-        environment: { name: Faker::Lorem.word, status: Faker::Internet.url }
-      }
+        environment: { name: Faker::Lorem.word, status: Faker::Internet.url } }
     end
 
     before do
@@ -112,14 +111,14 @@ RSpec.describe DiscoveryService::Metadata::Updater do
 
         context 'nothing stored in redis' do
           let(:aaf_idp) do
-            build_idp_data(%w(discovery aaf vho), 'en')
+            build_idp_data(%w[discovery aaf vho], 'en')
           end
 
           let(:edugain_sp) do
-            build_sp_data(%w(discovery edugain), 'en')
+            build_sp_data(%w[discovery edugain], 'en')
           end
           let(:non_matching_tuakiri_idp) do
-            build_idp_data(%w(discovery tuakiri vho))
+            build_idp_data(%w[discovery tuakiri vho])
           end
 
           let(:response_body) do
@@ -165,14 +164,14 @@ RSpec.describe DiscoveryService::Metadata::Updater do
 
         context 'entities already stored in redis' do
           let(:original_ttl) { 10 }
-          let(:aaf_idp) { build_idp_data(%w(discovery aaf), 'en') }
+          let(:aaf_idp) { build_idp_data(%w[discovery aaf], 'en') }
 
           let(:edugain_idp) do
-            build_idp_data(%w(discovery edugain vho), 'en')
+            build_idp_data(%w[discovery edugain vho], 'en')
           end
 
           let(:unchanged_tuakiri_idp) do
-            build_idp_data(%w(discovery tuakiri vho), 'en')
+            build_idp_data(%w[discovery tuakiri vho], 'en')
           end
 
           let(:aaf_idp_tagged) { add_tag(aaf_idp, 'idp') }
@@ -203,7 +202,7 @@ RSpec.describe DiscoveryService::Metadata::Updater do
           end
 
           let(:new_aaf_idp) do
-            build_idp_data(%w(discovery aaf vho), 'en')
+            build_idp_data(%w[discovery aaf vho], 'en')
           end
 
           let(:response_body) do
@@ -235,7 +234,8 @@ RSpec.describe DiscoveryService::Metadata::Updater do
             run
             expect(redis.get('pages:group:tuakiri'))
               .to include(CGI.escapeHTML(
-                            unchanged_tuakiri_idp[:names].first[:value]))
+                            unchanged_tuakiri_idp[:names].first[:value]
+              ))
           end
 
           it 'only updates the ttl for entities contained in the response' do

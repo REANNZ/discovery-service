@@ -122,7 +122,8 @@ function enableTabs() {
     setFirstTabAsActive();
     $.fn.dataTable.ext.search.push(
         function (settings, data) {
-          var tagsForIdP = data[3];
+          var tagsForIdPAsString = data[3];
+          var tagsForIdP = tagsForIdPAsString.split(',');
           var selectedTab = $('#tab_menu a.active').attr('data-tab');
           return tagsForIdP.indexOf(selectedTab) != -1 || selectedTab == '*'
         }
@@ -159,6 +160,17 @@ function getUrlParameter(sParam) {
   }
 }
 
+function decodeString(source) {
+  var textArea = document.createElement('textarea');
+  textArea.innerHTML = source;
+  decodedString = textArea.value; 
+
+  if ('remove' in Element.prototype) 
+      textArea.remove();
+
+  return decodedString;
+}
+
 function loadInitiatingSPDetails() {
   var spJson = $.parseJSON($('#sps').html());
   var initiatingSP = getUrlParameter('entityID');
@@ -167,10 +179,10 @@ function loadInitiatingSPDetails() {
     var sp = getSP(spJson, initiatingSP);
     if (sp == null) return;
 
-    $('.sp_header_name').text(sp.name);
+    $('.sp_header_name').text(decodeString(sp.name));
 
     if (sp.description) {
-      $('#sp_header_description').text(sp.description);
+      $('#sp_header_description').text(decodeString(sp.description));
     }
     if (sp.logo_url) {
       $('#sp_header_logo').attr("src", sp.logo_url);
@@ -204,7 +216,7 @@ function renderLogo(logoURL) {
 }
 
 function renderIdPDetails(idPName) {
-  return '<strong>' + idPName + '</strong><br/>';
+  return '<strong>' + decodeString(idPName) + '</strong><br/>';
 }
 
 function renderEntityIdInput(entityID) {

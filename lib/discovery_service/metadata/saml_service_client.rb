@@ -1,5 +1,6 @@
 require 'logger'
 require 'json'
+require 'net/http'
 
 module DiscoveryService
   module Metadata
@@ -21,6 +22,7 @@ module DiscoveryService
       def with_saml_service_client(url)
         client = Net::HTTP.new(url.host, url.port)
         client.use_ssl = (url.scheme == 'https')
+        client.read_timeout = 120
         logger.info "Invoking SAML Service (#{url})"
         client.start { |http| yield http }
       end
