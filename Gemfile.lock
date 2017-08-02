@@ -1,15 +1,9 @@
-GIT
-  remote: https://github.com/ausaccessfed/aaf-gumboot
-  revision: e965a484049ac1fe2532776227fc9bef3633bb98
-  branch: bugfix/strap-safe-load-symbols
-  specs:
-    aaf-gumboot (1.0.0.pre.alpha.2)
-      accession (~> 1.0)
-
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
+    aaf-gumboot (1.1.0)
+      accession (~> 1.0)
     accession (1.0.0)
     activesupport (5.0.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
@@ -233,7 +227,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aaf-gumboot!
+  aaf-gumboot
   activesupport
   aws-sdk
   capybara
@@ -274,4 +268,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.14.6
+   1.15.3

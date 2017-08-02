@@ -53,6 +53,5 @@ group :development, :test do
   gem 'guard-unicorn', require: false
   gem 'terminal-notifier-guard', require: false
 
-  gem 'aaf-gumboot', git: 'https://github.com/ausaccessfed/aaf-gumboot',
-                     branch: 'bugfix/strap-safe-load-symbols'
+  gem 'aaf-gumboot'
 end
