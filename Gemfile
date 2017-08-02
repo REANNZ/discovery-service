@@ -13,6 +13,7 @@ gem 'slim'
 gem 'activesupport'
 gem 'hashdiff'
 gem 'json-jwt'
+gem 'rack', '~> 1.0'
 gem 'sinatra-contrib'
 
 gem 'sinatra-asset-pipeline'
