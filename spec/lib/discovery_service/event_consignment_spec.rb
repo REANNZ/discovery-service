@@ -28,7 +28,7 @@ RSpec.describe DiscoveryService::EventConsignment do
 
     before do
       allow(Aws::SQS::Client).to receive(:new).with(client_opts)
-        .and_return(client)
+                                              .and_return(client)
 
       allow(DiscoveryService).to receive(:configuration).and_return(app_config)
 
