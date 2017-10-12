@@ -415,7 +415,7 @@ RSpec.describe DiscoveryService::Application do
         expect(last_response.status).to eq(302)
         uri = URI.parse(last_response.location)
         expect(uri.path).to match(%r{/discovery/#{group_name}/[a-zA-Z0-9_-]+})
-        expect(URI.unescape(uri.query)).to eq("entityID=#{entity_id}")
+        expect(CGI.unescape(uri.query)).to eq("entityID=#{entity_id}")
       end
 
       it 'stores the id in redis' do

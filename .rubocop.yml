@@ -3,3 +3,7 @@ inherit_gem:
 
 Rails:
   Enabled: false
+
+Lint/RescueWithoutErrorClass:
+  Exclude:
+    - lib/discovery_service/event_consignment.rb

@@ -32,14 +32,14 @@ module DiscoveryService
 
     # rubocop:disable Layout/IndentHeredoc
     def embedded_wayf_disclaimer
-      <<-EOF
+      <<-DISCLAIMER
 /* The AAF Embedded WAYF is deprecated and will be removed during 2016. New
  * services should refer to the AAF website for information about connecting to
  * the federation.
  *
  * https://aaf.edu.au
  */
-      EOF
+      DISCLAIMER
     end
     # rubocop:enable Layout/IndentHeredoc
 
