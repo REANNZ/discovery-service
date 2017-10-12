@@ -1,8 +1,5 @@
 inherit_gem:
   aaf-gumboot: aaf-rubocop.yml
 
-AllCops:
-  TargetRubyVersion: 2.2
-
 Rails:
   Enabled: false

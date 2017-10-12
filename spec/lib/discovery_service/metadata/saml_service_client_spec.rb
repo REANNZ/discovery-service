@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscoveryService::Metadata::SAMLServiceClient do
   describe '#retrieve_entity_data(url)' do
     include_context 'build_entity_data'

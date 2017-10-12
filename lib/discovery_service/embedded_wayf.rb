@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscoveryService
   # Implements a solution compatible with the AAF Embedded WAYF provided by the
   # old Discovery Service. This is a stopgap solution to prevent service

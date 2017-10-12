@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscoveryService::Application do
   include Rack::Test::Methods
   include_context 'build_entity_data'

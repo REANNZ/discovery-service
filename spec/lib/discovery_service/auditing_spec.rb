@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscoveryService::Auditing do
   let(:klass) do
     Class.new do

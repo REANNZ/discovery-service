@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscoveryService
   module Metadata
     # Filters entity data based on tag config

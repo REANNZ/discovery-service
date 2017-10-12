@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscoveryService
   module Entity
     # Module to handle conversion of entities from redis
@@ -67,7 +69,7 @@ module DiscoveryService
         return nil unless entity[field]
         values = entity[field].select { |value| value[:lang] == lang }
         value = values.first
-        CGI.escapeHTML(value[key]) if value && value.key?(key)
+        CGI.escapeHTML(value[key]) if value&.key?(key)
       end
     end
   end

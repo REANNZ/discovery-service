@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscoveryService
   # Rendering of group pages
   module Renderer

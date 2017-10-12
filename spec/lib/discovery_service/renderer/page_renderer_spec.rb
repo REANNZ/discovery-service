@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscoveryService::Renderer::PageRenderer do
   describe '#render(page, model, environment)' do
     let(:klass) do

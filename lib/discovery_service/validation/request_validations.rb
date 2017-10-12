@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 module DiscoveryService
   module Validation
     # Module to handle request validation
     module RequestValidations
       URL_SAFE_BASE_64_ALPHABET = /^[a-zA-Z0-9_-]+$/
-      VALID_URI_REGEX = /\A#{URI.regexp}\z/
+      VALID_URI_REGEX = /\A#{URI::DEFAULT_PARSER.make_regexp}\z/
       IDP_DISCOVERY_SINGLE_PROTOCOL =
         'urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol:single'
-        .freeze
 
       def uri?(value)
         value && value =~ VALID_URI_REGEX

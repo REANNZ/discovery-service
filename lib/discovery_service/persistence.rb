@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscoveryService
   # Local cache of data from saml-service
   module Persistence

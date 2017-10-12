@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscoveryService::Persistence::EntityCache do
   include_context 'build_entity_data'
   let(:redis) { Redis::Namespace.new(:discovery_service, redis: Redis.new) }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscoveryService::Metadata::EntityDataFilter do
   describe '#filter(entity_data, tag_config)' do
     include_context 'build_entity_data'

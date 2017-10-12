@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'discovery_service'
 
 RSpec.describe DiscoveryService::EventConsignment do
