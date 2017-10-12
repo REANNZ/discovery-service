@@ -4,7 +4,7 @@ gem 'god', require: false
 gem 'sinatra', require: false
 gem 'unicorn', require: false
 
-gem 'aws-sdk', require: false
+gem 'aws-sdk', '~> 2.9.1', require: false
 
 gem 'redis'
 gem 'redis-namespace'
