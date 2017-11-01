@@ -19,7 +19,7 @@ RSpec.describe DiscoveryService::Application do
 
   def date_in_3_months
     (Time.now + 3.months).in_time_zone('UTC')
-                             .strftime('%a, %d %b %Y %H:%M:%S -0000')
+                         .strftime('%a, %d %b %Y %H:%M:%S -0000')
   end
 
   let(:redis) { Redis::Namespace.new(:discovery_service, redis: Redis.new) }
