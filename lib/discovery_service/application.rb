@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sinatra/base'
 require 'sinatra/cookies'
 require 'sinatra/asset_pipeline'
@@ -117,7 +119,7 @@ module DiscoveryService
 
     def entity_exists?(group, entity_id)
       entities = @entity_cache.entities_as_hash(group)
-      entities && entities.key?(entity_id)
+      entities&.key?(entity_id)
     end
 
     get '/discovery/:group/:unique_id' do |group, unique_id|

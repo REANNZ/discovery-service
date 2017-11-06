@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscoveryService
   # Response handling logic
   module Response

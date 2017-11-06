@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscoveryService::Persistence::Keys do
   let(:klass) { Class.new { include DiscoveryService::Persistence::Keys } }
   let(:group_name) { "#{Faker::Lorem.word}_#{Faker::Number.number(2)}-" }

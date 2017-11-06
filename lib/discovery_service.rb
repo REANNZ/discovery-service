@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
 require 'discovery_service/persistence'
@@ -14,7 +16,7 @@ require 'discovery_service/event_consignment'
 
 # Top-level module for the Discovery Service project.
 module DiscoveryService
-  CONFIG_FILE = 'config/discovery_service.yml'.freeze
+  CONFIG_FILE = 'config/discovery_service.yml'
 
   class <<self
     attr_reader :configuration

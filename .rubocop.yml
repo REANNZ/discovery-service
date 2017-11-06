@@ -1,8 +1,9 @@
 inherit_gem:
   aaf-gumboot: aaf-rubocop.yml
 
-AllCops:
-  TargetRubyVersion: 2.2
-
 Rails:
   Enabled: false
+
+Lint/RescueWithoutErrorClass:
+  Exclude:
+    - lib/discovery_service/event_consignment.rb

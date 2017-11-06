@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscoveryService::Metadata::Updater do
   describe '#update' do
     let(:logger) { spy }

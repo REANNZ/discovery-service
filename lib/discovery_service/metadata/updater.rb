@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 require 'redis'
 require 'redis-namespace'
@@ -57,7 +59,7 @@ module DiscoveryService
       end
 
       def add_tag(entities, tag)
-        entities.each { |e| e[:tags] << tag } unless entities.nil?
+        entities&.each { |e| e[:tags] << tag }
       end
 
       def update_expiry(group)

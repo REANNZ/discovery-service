@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscoveryService
   # Provides capabilities for logging audit data for reporting purposes
   module Auditing
