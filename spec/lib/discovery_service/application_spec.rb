@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscoveryService::Application do
   include Rack::Test::Methods
   include_context 'build_entity_data'
@@ -16,8 +18,8 @@ RSpec.describe DiscoveryService::Application do
   end
 
   def date_in_3_months
-    (DateTime.now + 3.months).in_time_zone('UTC')
-                             .strftime('%a, %d %b %Y %H:%M:%S -0000')
+    (Time.now + 3.months).in_time_zone('UTC')
+                         .strftime('%a, %d %b %Y %H:%M:%S -0000')
   end
 
   let(:redis) { Redis::Namespace.new(:discovery_service, redis: Redis.new) }
@@ -413,7 +415,7 @@ RSpec.describe DiscoveryService::Application do
         expect(last_response.status).to eq(302)
         uri = URI.parse(last_response.location)
         expect(uri.path).to match(%r{/discovery/#{group_name}/[a-zA-Z0-9_-]+})
-        expect(URI.unescape(uri.query)).to eq("entityID=#{entity_id}")
+        expect(CGI.unescape(uri.query)).to eq("entityID=#{entity_id}")
       end
 
       it 'stores the id in redis' do

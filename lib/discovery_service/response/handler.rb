@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscoveryService
   module Response
     # Module to handle user redirect / response

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscoveryService
   # Logic for retrieval from saml-service
   module Metadata

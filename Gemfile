@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 gem 'god', require: false
 gem 'sinatra', require: false
 gem 'unicorn', require: false
 
-gem 'aws-sdk', require: false
+gem 'aws-sdk', '~> 2', require: false
 
 gem 'redis'
 gem 'redis-namespace'

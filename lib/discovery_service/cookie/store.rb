@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'json'
 
 module DiscoveryService
   module Cookie
     # Module to handle storage / retrieval of cookies
     module Store
-      SELECTED_ORGANISATIONS_KEY = 'selected_organisations'.freeze
+      SELECTED_ORGANISATIONS_KEY = 'selected_organisations'
 
       def save_idp_selection(group, user_idp, request, response)
         cookies = cookie(request, SELECTED_ORGANISATIONS_KEY)

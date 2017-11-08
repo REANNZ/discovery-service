@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/core_ext/hash'
 
 RSpec.shared_context 'build_entity_data' do
