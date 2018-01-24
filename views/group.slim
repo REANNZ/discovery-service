@@ -3,7 +3,6 @@ javascript:
     initGroupPage();
   });
 
-script#idps(type='application/json')== JSON.generate(@idps)
 script#sps(type='application/json')== JSON.generate(@sps)
 
 .ui.mobile.stackable.padded.grid
@@ -25,12 +24,6 @@ script#sps(type='application/json')== JSON.generate(@sps)
       i.help.circle.icon
       | Why am I here?
 - if @idps.any?
-  #basic_mode_warning_message.ui.warning.message
-    .header
-      | Discovery Service is running in basic mode
-    ' For a better experience, please upgrade to a
-    a>(href="http://browsehappy.com/" tabindex="1") modern browser
-    | and ensure Javascript is enabled.
   form[id="idp_selection_form" method="POST"]
     .ui.form.attached.fluid
       #loader.ui.inverted.dimmer
@@ -60,7 +53,7 @@ script#sps(type='application/json')== JSON.generate(@sps)
                     th
                 tbody
                   - @idps.each do |idp|
-                    tr
+                    tr[data-idp-name="#{idp[:name].downcase.gsub(/\s+/, "")}"]
                       td
                         strong
                           == idp[:name]
@@ -79,6 +72,13 @@ script#sps(type='application/json')== JSON.generate(@sps)
   .ui.negative.message
     .header Error
     p No organisations to select
+
+#basic_mode_warning_message.ui.warning.message
+  .header
+    | Discovery Service is running in basic mode
+  ' For a better experience, please upgrade to a
+  a>(href="http://browsehappy.com/" tabindex="1") modern browser
+  | and ensure Javascript is enabled.
 
 .ui.modal
   i.close.icon

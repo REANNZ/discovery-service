@@ -1,6 +1,4 @@
 //= require jquery
-//= require semantic-ui
-//= require datatables/jquery.dataTables
 //= require slimscroll/jquery.slimscroll
 
 function enableHelpLink() {
@@ -94,13 +92,13 @@ function submitFormOnSelectIdPButtonClick() {
 }
 
 function clearSearch() {
-  unselectIdP();
-  disableSelectOrganisationButton();
-  $('#search_input').val('');
-  $('#idp_selection_table').DataTable()
-      .search('')
-      .columns().search('')
-      .draw();
+  //unselectIdP();
+  //disableSelectOrganisationButton();
+  //$('#search_input').val('');
+  //$('#idp_selection_table').DataTable()
+      //.search('')
+      //.columns().search('')
+      //.draw();
 }
 
 function clearSearchOnClearButtonClick() {
@@ -122,7 +120,7 @@ function enableTabs() {
     setFirstTabAsActive();
     $.fn.dataTable.ext.search.push(
         function (settings, data) {
-          var tagsForIdPAsString = data[3];
+          var tagsForIdPAsString = data[2];
           var tagsForIdP = tagsForIdPAsString.split(',');
           var selectedTab = $('#tab_menu a.active').attr('data-tab');
           return tagsForIdP.indexOf(selectedTab) != -1 || selectedTab == '*'
@@ -163,9 +161,9 @@ function getUrlParameter(sParam) {
 function decodeString(source) {
   var textArea = document.createElement('textarea');
   textArea.innerHTML = source;
-  decodedString = textArea.value; 
+  decodedString = textArea.value;
 
-  if ('remove' in Element.prototype) 
+  if ('remove' in Element.prototype)
       textArea.remove();
 
   return decodedString;
@@ -226,7 +224,7 @@ function renderEntityIdInput(entityID) {
 
 function buildDataset(idPData) {
   return idPData.map(function (idP) {
-    return [idP.name, idP.logo_url, idP.entity_id, idP.tags];
+    return [idP.name, idP.entity_id, idP.tags];
   });
 }
 
@@ -235,25 +233,29 @@ function loadDataTable() {
 
   $('#idp_selection_table').DataTable({
     data: buildDataset(idpJson),
-    scrollCollapse: true,
+    autoWidth: false,
     paging: false,
-    sDom: '<"top">rt<"bottom"><"clear">',
+    deferRender:    true,
+    scrollY:        250,
+    scrollCollapse: true,
+    scroller:       true,
+    searchDelay:    400,
+    search: {
+      smart: false
+    },
+    //sDom: '<"top">rt<"bottom"><"clear">',
     columnDefs: [
       {sClass: "idp_selection_table_name_column", targets: 0 },
       {render: renderIdPDetails, targets: 0},
-      {sClass: "idp_selection_logo_column", targets: 1 },
-      {render: renderLogo, targets: 1},
-      {render: renderEntityIdInput, targets: 2},
-      {visible: false, targets: 3}
+      {render: renderEntityIdInput, targets: 1},
+      {visible: false, targets: 2}
     ],
     aoColumns: [
       {"bSearchable": true},
       {"bSearchable": false},
-      {"bSearchable": false},
       {"bSearchable": true}
     ],
-    order: [[0, 'asc']],
-    bAutoWidth: false
+    order: [[0, 'asc']]
   });
 }
 
@@ -271,13 +273,19 @@ function makeTabsClickable() {
 }
 
 function performSearchOnIdPSearchKeyup() {
+  var search = $.fn.dataTable.util.throttle(
+    function ( val ) {
+        $('#idp_selection_table').DataTable().search( val ).draw();
+    },
+    2000
+  );
   $('#search_input').keyup(function () {
-    $('#idp_selection_table').DataTable().search($(this).val()).draw();
+    search( this.value );
   })
 }
 
 function hideBasicModeWarningMessage() {
-  $('#basic_mode_warning_message').hide();
+  $('#basic_mode_warning_message').attr("hidden", true);
 }
 
 function hideTabMenu() {
@@ -312,7 +320,7 @@ function initHandlers() {
   appendIdPSelectionOnFormSubmit();
   submitFormOnSelectIdPButtonClick();
   clearSearchOnClearButtonClick();
-  performSearchOnIdPSearchKeyup();
+  //performSearchOnIdPSearchKeyup();
   makeMessagesClosable();
 
 }
@@ -340,19 +348,28 @@ function initRichClient() {
   setTabIndexOnRows();
 }
 
-function initBasicClient() {
-  hideTabMenu();
-}
-
 function initGroupPage() {
-  if (ie9OrEarlier()) {
-    initBasicClient();
-  } else {
-    initRichClient();
-  }
-}
+  hideBasicModeWarningMessage();
+  //initScroller();
+  setCursorToPointerOnIdPRows();
 
-function ie9OrEarlier() {
-  return document.documentMode && document.documentMode <= 9;
-}
+  //makeIdPRowsSelectable();
+  //hideButtonsAlongsideEachIdP();
+  //appendIdPSelectionOnFormSubmit();
+  //submitFormOnSelectIdPButtonClick();
+  //displayMainIdPSelectButton();
 
+  showSearchOptions();
+  clearSearchOnClearButtonClick();
+  focusSearchField();
+
+  $('#search_input').keyup(function() {
+    var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+    if(val == "") {
+      $("#idp_selection_form tr").attr('hidden',false);
+    } else {
+      $("tr").not("[data-idp-name*='" + val + "']").attr('hidden',true);
+      $("tr").filter("[data-idp-name*='" + val + "']").attr('hidden',false)
+    }
+  });
+}

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails-assets-jquery'
-require 'rails-assets-semantic-ui'
 require 'rails-assets-datatables'
 require 'rails-assets-slimscroll'
 require 'sprockets'
