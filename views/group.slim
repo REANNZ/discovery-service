@@ -1,106 +1,62 @@
-javascript:
-  $(document).ready(function () {
-    initGroupPage();
-  });
-
 script#sps(type='application/json')== JSON.generate(@sps)
 
-.ui.mobile.stackable.padded.grid
-  .twelve.wide.column
-    .ui.header.title
-      img#sp_header_logo.ui.image src="/aaf_logo.png" alt="The Australian Access Federation" /
-      #sp_header.content
-        ' Login to
-        span.sp_header_name  Service
-        .sub.header
-          #sp_header_description
-          #sp_header_links.ui.list
-            .item
-              a#sp_header_information_url target="_blank"
-            .item
-              a#sp_header_privacy_statement_url target="_blank"
-  #sp_header_links_column.four.wide.column
-    a#help_link href="#"
-      i.help.circle.icon
-      | Why am I here?
+javascript:
+  document.documentElement.className = 'no-fouc';
+  $(document).ready(function () {
+    init();
+  });
+
+div[id="sp"]
+  h2[id="sp_name"]
+    | Login to federated service
+  div[id="sp_description"]
+    p Please select your organisation below, you will be redirected to complete the login process.
+  div[id="sp_links"]
+    a[id="sp_information_url"]
+    a[id="sp_privacy_statement_url"]
+  div[id="sp_help"]
+    p Please select your organisation below, you will be redirected to complete the login process.
+
 - if @idps.any?
-  form[id="idp_selection_form" method="POST"]
-    .ui.form.attached.fluid
-      #loader.ui.inverted.dimmer
-        .ui.text.loader
-      .field
-        #tab_menu.ui.top.attached.tabular.menu
-          - tag_groups.each do |tag_group|
-            a[data-tab="#{tag_group[:tag]}" class="item#{" can_hide" if can_hide?(tag_group)}#{" active" if all_tag?(tag_group)}"]
-              | #{tag_group[:name]}
-        #tab_content.ui.bottom.segment.attached
-          #search_options.ui.mobile.stackable.padded.grid
-            #search_column.sixteen.wide.column
-              .ui.left.icon.right.action.input.fluid
-                i.search.icon
-                label[for="search_input" class="accessible"] Organisation:
-                input#search_input placeholder=("Search for your organisation") type="text" autocomplete="off" /
-                #search_clear_button.ui.basic.floating.icon.button
-                  i.remove.icon
-          #message
-          .ui.active.tab
-            #scroller.ui.segment
-              table[id="idp_selection_table" class="ui celled table datatable"]
-                thead
-                  tr
-                    th
-                    th
-                    th
-                tbody
-                  - @idps.each do |idp|
-                    tr[data-idp-name="#{idp[:name].downcase.gsub(/\s+/, "")}"]
-                      td
-                        strong
-                          == idp[:name]
-                      td
-                        - if idp[:logo_url]
-                          img.ui.image.tiny.bordered src="#{idp[:logo_url]}" /
-                      td
-                        button[type="submit" name="user_idp" value="#{idp[:entity_id]}" tabindex="#{@idps.index(idp) + 2}" class="button ui floated right button small select_organisation_input"] Select
-      .field
-        #select_organisation_button.ui.fluid.button.btn-accessible.large.primary
-      .field
-        .ui.checkbox
-          input id="remember" name="remember" type="checkbox" /
-          label[for="remember"] Remember this selection permanently
+  div[id="idp_list"]
+    - if tag_groups.length > 1
+      ul[class="tabs"]
+        - tag_groups.each_with_index do |tag_group, i|
+          li[class="#{(i == 0 ?'current':'')} tab" data-tab="tag-#{tag_group[:tag]}"]
+           ==tag_group[:name]
+
+    - tag_groups.each_with_index do |tag_group, i|
+      div[class="tab-content #{(i == 0 ?'current':'')}" id="tag-#{tag_group[:tag]}"]
+        - if tag_groups.length > 1
+          h3[class="tag-heading"] 
+            | #{tag_group[:name]}
+        form[class="idp_selection_form" method="POST" tabindex="1"]
+          .field
+            .search_options
+              input[class="center search_input" placeholder=("Search for your organisation") type="text" autocomplete="off" tabindex="-1"]
+          div[class="idp_selection_table_container scrollbar-inner"]
+            table[class="idp_selection_table"]
+              tbody
+                - @idps.select{|idp| idp[:tags].include?(tag_group[:tag])}.each do |idp|
+                  tr[class="idp" data-idp-name="#{idp[:name].downcase.gsub(/\s+/, "")}"]
+                    td
+                      == idp[:name]
+                    td
+                      button[type="submit" name="user_idp"
+                      value="#{idp[:entity_id]}" tabindex="#{@idps.index(idp) +
+                      2}" class="select_idp_button"] Select
+
+          .field
+            span[class="continue_button button" disabled]
+              | Continue to your organisation
+
+          .field
+            span
+              label[class="remember_selection"] 
+                input[name="remember" type="checkbox" tabindex="-1"]
+                span[class="checkable"]
+                  | Remember this selection permanently
 - else
-  .ui.negative.message
-    .header Error
-    p No organisations to select
+  h2 Error
+  p No organisations to select
 
-#basic_mode_warning_message.ui.warning.message
-  .header
-    | Discovery Service is running in basic mode
-  ' For a better experience, please upgrade to a
-  a>(href="http://browsehappy.com/" tabindex="1") modern browser
-  | and ensure Javascript is enabled.
-
-.ui.modal
-  i.close.icon
-  .header Why am I here?
-  .content
-    p
-      | You tried to access&nbsp;
-      strong
-        span.sp_header_name
-      | &nbsp;which requires you to log in to your organisation.
-
-    | Your organisation could be:
-    ul.list
-      li Your University
-      li Your Research Organisation
-      li Your Research Support Organisation
-      li AAF Virtual Home Organisation
-    strong How to log in
-    ol.list
-      li Select your organisation and you will be taken to their login page.
-      li Log in to your organisation and then you will be redirected back to the content or service you originally tried to access.
-    strong What if I don't see my organisation in the list?
-    p
-      | Your organisation may not be a subscriber to the Australian Access Federation. For a complete list of subscribing organisations see the
-      a href="http://www.aaf.edu.au/subscribe/subscribers" target="_blank"  AAF Subscribers list.
