@@ -7,18 +7,16 @@
     p
       | You can reset this, and you'll be asked to select your organisation next time you access a service.
 
-    table[id="idp_reset_selection_table"]
-      tbody
-        - @idps.each do |idp|
-          tr
-            td.idp_selection_table_name_column
-              strong
-                == idp[:name]
-            td.idp_selection_logo_column
-              - if idp[:logo_url]
-                img.ui.image.tiny.bordered src="#{idp[:logo_url]}" /
-    form[action="" method="POST"]
-      button[type="submit" id="reset_idp_selection_button" class="button"] Reset
+    div[id="idp_reset_selection"]
+      table
+        tbody
+          - @idps.each do |idp|
+            tr
+              td
+                  == idp[:name]
+              td
+                form[action="" method="POST"]
+                  button[type="submit" id="reset_idp_selection_button" class="button"] Reset
 - else
     h2 
       | You have no saved organisations

@@ -2,7 +2,7 @@
 //= require jquery.scrollbar
 //= require mousetrap
 
-/// Service Provider
+/// Service Providers
 function getSP(spJson, initiatingSP) {
   for(var i = 0; i < spJson.length; i++) {
     if (spJson[i].entity_id == initiatingSP) {
@@ -68,14 +68,6 @@ function loadInitiatingSPDetails() {
         $('#sp_privacy_statement_url').text('Privacy Statement');
       }
     }
-  }
-}
-
-function renderLogo(logoURL) {
-  if (logoURL) {
-    return '<img class="ui image tiny bordered" src="' + logoURL + '">';
-  } else {
-    return '';
   }
 }
 

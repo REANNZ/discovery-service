@@ -160,11 +160,6 @@ RSpec.describe DiscoveryService::Application do
             .to include(CGI.escapeHTML(existing_entity[:names].first[:value]))
         end
 
-        it 'shows the idp logo' do
-          expect(last_response.body)
-            .to include(existing_entity[:logos].first[:url])
-        end
-
         it 'contains a form to reset idps' do
           expect(last_response.body).to include('<form action="" '\
             'method="POST">')
@@ -230,13 +225,6 @@ RSpec.describe DiscoveryService::Application do
             ))
           expect(last_response.body)
             .to include(CGI.escapeHTML(other_entity[:names].first[:value]))
-        end
-
-        it 'shows the idp logos' do
-          expect(last_response.body)
-            .to include(existing_entity[:logos].first[:url])
-          expect(last_response.body)
-            .to include(other_entity[:logos].first[:url])
         end
 
         it 'shows the help text header (plural)' do

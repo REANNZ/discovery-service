@@ -233,6 +233,21 @@ a:hover {
   font-size: 0.8em;
 }
 
+#idp_reset_selection {
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  width: 100%;
+}
+
+#idp_reset_selection table {
+  width: 100%;
+}
+
+
+#idp_reset_selection table td:last-child {
+  text-align: right;
+}
+
 .scroll-wrapper {
     overflow: hidden !important;
     padding: 0 !important;
