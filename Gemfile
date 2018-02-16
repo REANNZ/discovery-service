@@ -27,8 +27,8 @@ gem 'uglifier', require: false
 source 'https://rails-assets.org' do
   gem 'rails-assets-datatables'
   gem 'rails-assets-jquery'
-  gem 'rails-assets-slimscroll'
   gem 'rails-assets-picnic'
+  gem 'rails-assets-slimscroll'
 end
 
 group :development, :test do

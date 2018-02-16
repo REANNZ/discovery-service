@@ -101,7 +101,7 @@ RSpec.describe DiscoveryService::Application do
       it 'shows that there are no organisations selected' do
         run
         expect(last_response.body)
-          .to include('You have no saved organisations.')
+          .to include('You have no saved organisations')
       end
 
       it 'shows the environment name' do
@@ -124,7 +124,7 @@ RSpec.describe DiscoveryService::Application do
             JSON.generate('other_group' => entity_id)
           run
           expect(last_response.body)
-            .to include('You have no saved organisations.')
+            .to include('You have no saved organisations')
         end
       end
 
@@ -139,7 +139,7 @@ RSpec.describe DiscoveryService::Application do
             JSON.generate(group_name => entity_id)
           run
           expect(last_response.body)
-            .to include('You have no saved organisations.')
+            .to include('You have no saved organisations')
         end
       end
 
@@ -176,9 +176,7 @@ RSpec.describe DiscoveryService::Application do
 
         it 'shows the help text body (singular)' do
           expect(last_response.body).to include('When you access a service, '\
-          'you will be automatically sent to this organisation to log in.'\
-          ' You can reset this, and you\'ll be asked to select your'\
-          ' organisation next time you access a service.')
+          'you will be automatically sent to this organisation to log in.')
         end
 
         it 'shows the reset button' do
@@ -248,8 +246,7 @@ RSpec.describe DiscoveryService::Application do
         it 'shows the help text body (plural)' do
           expect(last_response.body).to include('When you access a service, '\
           'you will be automatically sent to one of these organisations to'\
-          ' log in. You can reset this, and you\'ll be asked to select your'\
-          ' organisation next time you access a service.')
+          ' log in.')
         end
       end
 
@@ -305,7 +302,7 @@ RSpec.describe DiscoveryService::Application do
       it 'shows that there are no organisations selected' do
         run
         expect(last_response.body)
-          .to include('You have no saved organisations.')
+          .to include('You have no saved organisations')
       end
 
       it 'shows the environment name' do
@@ -340,7 +337,7 @@ RSpec.describe DiscoveryService::Application do
         set_cookie
         run
         expect(last_response.body)
-          .to include('You have no saved organisations.')
+          .to include('You have no saved organisations')
       end
     end
 
@@ -372,7 +369,7 @@ RSpec.describe DiscoveryService::Application do
         set_cookie
         run
         expect(last_response.body)
-          .to include('You have no saved organisations.')
+          .to include('You have no saved organisations')
       end
     end
   end
@@ -1247,8 +1244,7 @@ RSpec.describe DiscoveryService::Application do
 
     it 'display missing idp message' do
       expect(last_response.body)
-        .to include('Oops! The organisation you selected isn\'t '\
-                    'available anymore.')
+        .to include('We seem to have misplaced something')
     end
   end
 end
