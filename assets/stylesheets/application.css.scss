@@ -30,6 +30,7 @@ a:hover {
 }
 
 #footer .inline {
+  display: -ms-inline-grid;
   display: inline-grid;
 }
 
@@ -40,6 +41,7 @@ a:hover {
   background-size: 30px 30px;
   background-repeat: no-repeat;
   padding-left: 40px;
+  display: inline-table;
 }
 
 #footer #environment span {
@@ -54,6 +56,11 @@ a:hover {
   width: 50%;
   min-height: 32px;
   text-align: right;
+  display: inline-table;
+}
+
+#footer #status a {
+  display: block;
 }
 
 #footer #status a:hover {
@@ -182,12 +189,16 @@ a:hover {
   display: block;
   height: 400px;
   margin-bottom: 8px;
+
+  -ms-overflow-style: none;
   overflow-y: scroll;
   overflow-x: hidden;
+
   border: 1px solid #cccccc;
   border-radius: 3px;
   position: relative;
   z-index: 1;
+
 }
 
 .idp_selection_table {
@@ -243,7 +254,6 @@ a:hover {
   width: 100%;
 }
 
-
 #idp_reset_selection table td:last-child {
   text-align: right;
 }
@@ -278,6 +288,7 @@ a:hover {
 .scroll-element {
     display: none;
 }
+
 .scroll-element, .scroll-element div {
     box-sizing: content-box;
 }
@@ -296,9 +307,11 @@ a:hover {
     border: 1px solid #cccccc;
     border-top-color: #999999;
 }
+
 .scroll-textarea > .scroll-content {
     overflow: hidden !important;
 }
+
 .scroll-textarea > .scroll-content > textarea {
     border: none !important;
     box-sizing: border-box;
@@ -313,6 +326,7 @@ a:hover {
     top: 0;
     width: 100% !important;
 }
+
 .scroll-textarea > .scroll-content > textarea::-webkit-scrollbar {
     height: 0;
     width: 0;

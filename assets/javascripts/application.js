@@ -189,9 +189,10 @@ function searchActiveIdPList(input, key) {
 }
 
 function submitIdPSelection() {
-  let target = $('.idp.active:visible');
+  var target = $('.idp.active:visible');
   if (target.length) {
     $('.idp_selection_form:visible').submit();
+    return false;
   }
 }
 
@@ -245,6 +246,7 @@ Mousetrap.bind('r', function() {
 
 Mousetrap.bind('enter', function() {
   submitIdPSelection();
+  return false;
 });
 
 function init() {
@@ -262,8 +264,13 @@ function init() {
 
   // Force scrollbars to always be present when content is larger than container
   // browsers mostly hide scrollbars by default now which is not user friendly
-  // in our particular case
-  $('.scrollbar-inner').scrollbar();
+  // in our particular case.
+  //
+  if (navigator.userAgent.indexOf('Firefox') > -1) {
+    $('.scroll-element').css('display', 'none');
+  } else {
+    $('.scrollbar-inner').scrollbar();
+  }
 
   // active and visible are dynamic hence we need to pass these selectors to 'on'
   $('.idp_selection_table').on('click', '.idp:visible', function () {
