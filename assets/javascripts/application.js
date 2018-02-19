@@ -256,6 +256,30 @@ Mousetrap.bind('enter', function() {
     return false;
 });
 
+Mousetrap.bind('ctrl+1', function() {
+   $('#footer #environment').addClass('r1'); 
+});
+
+Mousetrap.bind('ctrl+2', function() {
+   $('#footer #environment').addClass('r2'); 
+});
+
+Mousetrap.bind('ctrl+3', function() {
+   $('#footer #environment').addClass('r3'); 
+});
+
+Mousetrap.bind('ctrl+4', function() {
+   $('#footer #environment').addClass('r4'); 
+});
+
+Mousetrap.bind('ctrl+g', function() {
+  $('.idp_selection_table_container').css('background', 'linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet)');
+});
+
+Mousetrap.bind('ctrl+u', function() {
+   $('body').toggleClass('flip'); 
+});
+
 function init() {
     loadInitiatingSPDetails();
 
