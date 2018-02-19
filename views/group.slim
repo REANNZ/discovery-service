@@ -50,12 +50,63 @@ div[id="sp"]
             span[class="continue_button button" disabled]
               | Continue to your organisation
 
-          .field
-            span
-              label[class="remember_selection"] 
-                input[name="remember" type="checkbox" tabindex="-1"]
-                span[class="checkable"]
-                  | Remember this selection permanently
+          div[class="extra_functions"]
+            div[class="left"]
+              .field
+                span
+                  label[class="remember_selection"] 
+                    input[name="remember" type="checkbox" tabindex="-1"]
+                    span[class="checkable"]
+                      | Remember this selection permanently
+            div[class="right"]
+              a Keyboard shortcuts 
+
+          div.keyboard_shortcuts
+            h4 Available keyboard shortcuts
+
+            table
+              tr
+                td
+                  span.shortcut
+                    span.key j
+                    span.key &darr;
+                td Move down
+                td
+                  span.shortcut
+                    span.key k
+                    span.key &uarr;
+                td Move up
+              tr
+                td
+                  span.shortcut
+                    span.key &#47;
+                    span.key s
+                td Focus search
+                td
+                  span.shortcut
+                    span.key esc
+                    span.key tab
+                td Remove focus from search
+              tr
+                td
+                  span.shortcut
+                    span.key t
+                td Switch tabs
+                td
+                  span.shortcut
+                    span.key enter
+                    span.key return
+                td Select focused organisation
+              tr
+                td
+                  span.shortcut
+                    span.key r
+                td Toggle remember
+                td
+                  span.shortcut
+                    span.key ctrl + u
+                td 
+                  a href="https://en.wikipedia.org/wiki/Mr._Squiggle" target="_blank" Mr Squiggle mode
 - else
   h2 Error
   p No organisations to select

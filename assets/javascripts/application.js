@@ -280,6 +280,11 @@ Mousetrap.bind('ctrl+u', function() {
    $('body').toggleClass('flip'); 
 });
 
+Mousetrap.bind('?', function() {
+  $(".keyboard_shortcuts").css("display", "inherit");
+  $(".extra_functions .right a").css('display', 'none');
+});
+
 function init() {
     loadInitiatingSPDetails();
 
@@ -319,6 +324,12 @@ function init() {
     $(".search_input").css("display", "inherit");
     $('.search_input').keyup(function(key) {
         searchActiveIdPList($(this), key);
+    });
+
+    $(".extra_functions .right a").css('display', 'inherit');
+    $(".extra_functions .right a").on('click', function() {
+      $(".keyboard_shortcuts").css("display", "inherit");
+      $(".extra_functions .right a").css('display', 'none');
     });
 
     // Content is styled and ready so show it. Prevents ugly 

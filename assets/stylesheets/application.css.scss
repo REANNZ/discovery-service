@@ -15,6 +15,29 @@
   padding-right: 8px;
 }
 
+.keyboard_shortcuts {
+  margin-top: 16px;
+  display: none;
+  font-size: 0.8em;
+}
+
+.keyboard_shortcuts table tbody tr td {
+  padding-bottom: 12px;
+}
+
+.shortcut {
+  display: inline-grid;
+}
+
+.key {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 0.1em 0.5em;
+  margin: 0 0.2em;
+  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
+  background-color: #f7f7f7;
+}
+
 a {
   color: #007bc5;
 }
@@ -242,6 +265,25 @@ a:hover {
 .remember_selection {
   padding: 0px;
   font-size: 0.8em;
+  display: inline-grid;
+}
+
+.extra_functions .left {
+  width: 50%;
+  display: inline-block;
+}
+
+.extra_functions .right {
+  width: 50%;
+  display: inline-block;
+  text-align: right;
+}
+
+.extra_functions .right a {
+  font-size: 0.8em;
+  color: #333;
+  cursor: pointer;
+  display: none;
 }
 
 #idp_reset_selection {
