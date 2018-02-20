@@ -1,358 +1,303 @@
 //= require jquery
-//= require semantic-ui
-//= require datatables/jquery.dataTables
-//= require slimscroll/jquery.slimscroll
+//= require jquery.scrollbar
+//= require mousetrap
 
-function enableHelpLink() {
-  $('#help_link').show();
-  $('#help_link').on('click', function () {
-    $('.ui.modal').modal().modal('show');
-  });
-}
-
-function initScroller() {
-  $('#scroller').slimScroll({
-    height: '250px',
-    wheelStep: 40,
-    alwaysVisible: true
-  });
-}
-
-function makeMessagesClosable() {
-  $('.message .close').on('click', function () {
-    $(this).closest('.message').transition('fade');
-  });
-}
-
-function focusSearchField() {
-  $("#search_input").focus();
-}
-
-function initialiseCheckbox() {
-  $('.ui.checkbox').checkbox();
-}
-
-function disableSelectOrganisationButton() {
-  $('#select_organisation_button').addClass('disabled');
-}
-
-function enableSelectOrganisationButton() {
-  $('#select_organisation_button').removeClass('disabled');
-}
-
-function unselectIdP() {
-  $('#idp_selection_table tbody tr').removeClass('active');
-}
-
-function selectIdPRow(tr) {
-  if (tr.attr('role') == 'row') {
-    if (tr.hasClass('active')) {
-      tr.removeClass('active');
-      disableSelectOrganisationButton();
-    }
-    else {
-      unselectIdP();
-      tr.addClass('active');
-      enableSelectOrganisationButton();
-      return true;
-    }
-  }
-  return false;
-}
-function makeIdPRowsSelectable() {
-  $('#idp_selection_table tbody').on('click', 'tr', function () {
-    var tr = $(this);
-    selectIdPRow(tr);
-  });
-}
-
-function appendIdPSelectionOnFormSubmit() {
-  $("#idp_selection_form").submit(function () {
-    var selectedIdPRowSelector = "#idp_selection_table tbody tr.active td"
-        + " input.select_organisation_input";
-    var selectedIdP = $(selectedIdPRowSelector).attr('name');
-
-    if (selectedIdP) {
-      $('<input />').attr('type', 'hidden')
-          .attr('name', 'user_idp')
-          .attr('value', selectedIdP)
-          .appendTo('#idp_selection_form');
-      return true;
-
-    }
-  });
-}
-
-function showSearchOptions() {
-  $('#search_options').show();
-}
-
-function submitFormOnSelectIdPButtonClick() {
-  $('#select_organisation_button').on('click', function () {
-    $("#idp_selection_form").submit();
-  });
-}
-
-function clearSearch() {
-  unselectIdP();
-  disableSelectOrganisationButton();
-  $('#search_input').val('');
-  $('#idp_selection_table').DataTable()
-      .search('')
-      .columns().search('')
-      .draw();
-}
-
-function clearSearchOnClearButtonClick() {
-  $('#search_clear_button').on('click', function () {
-    clearSearch();
-  });
-}
-
-function displayMainIdPSelectButton() {
-  $('#select_organisation_button').addClass('disabled');
-  $('#select_organisation_button').css("display", "inline-block");
-  $('#select_organisation_button').text('Continue to your organisation');
-}
-
-function enableTabs() {
-  $('#tab_content').css('padding-top', '0');
-  if ($('#tab_menu').children().length > 0) {
-    $('#tab_menu').css('height', '100%');
-    setFirstTabAsActive();
-    $.fn.dataTable.ext.search.push(
-        function (settings, data) {
-          var tagsForIdPAsString = data[3];
-          var tagsForIdP = tagsForIdPAsString.split(',');
-          var selectedTab = $('#tab_menu a.active').attr('data-tab');
-          return tagsForIdP.indexOf(selectedTab) != -1 || selectedTab == '*'
-        }
-    );
-  }
-}
-
-function setFirstTabAsActive() {
-  $('#tab_menu .item').removeClass('active');
-  $('#tab_menu .item:first').addClass('active');
-}
-
+/// Service Providers
 function getSP(spJson, initiatingSP) {
-  for(var i = 0; i < spJson.length; i++) {
-    if (spJson[i].entity_id == initiatingSP) {
-      return spJson[i];
+    for (var i = 0; i < spJson.length; i++) {
+        if (spJson[i].entity_id == initiatingSP) {
+            return spJson[i];
+        }
     }
-  }
-  return null;
+    return null;
 }
 
 function getUrlParameter(sParam) {
-  var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-      sURLVariables = sPageURL.split('&'),
-      sParameterName,
-      i;
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
 
-  for(var i = 0; i < sURLVariables.length; i++) {
-    sParameterName = sURLVariables[i].split('=');
+    for (var i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
 
-    if (sParameterName[0] === sParam) {
-      return sParameterName[1] === undefined ? true : sParameterName[1];
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
     }
-  }
 }
 
 function decodeString(source) {
-  var textArea = document.createElement('textarea');
-  textArea.innerHTML = source;
-  decodedString = textArea.value; 
+    var textArea = document.createElement('textarea');
+    textArea.innerHTML = source;
+    decodedString = textArea.value;
 
-  if ('remove' in Element.prototype) 
-      textArea.remove();
+    if ('remove' in Element.prototype)
+        textArea.remove();
 
-  return decodedString;
+    return decodedString;
 }
 
 function loadInitiatingSPDetails() {
-  var spJson = $.parseJSON($('#sps').html());
-  var initiatingSP = getUrlParameter('entityID');
+    var spJson = $.parseJSON($('#sps').html());
+    var initiatingSP = getUrlParameter('entityID');
 
-  if (initiatingSP) {
-    var sp = getSP(spJson, initiatingSP);
-    if (sp == null) return;
+    if (initiatingSP) {
+        var sp = getSP(spJson, initiatingSP);
+        if (sp == null) return;
 
-    $('.sp_header_name').text(decodeString(sp.name));
+        $('#sp_name').text('Login to ' + decodeString(sp.name));
 
-    if (sp.description) {
-      $('#sp_header_description').text(decodeString(sp.description));
+        if (sp.description) {
+            $('#sp_description').empty();
+            $('#sp_description').append('<p>' + decodeString(sp.description) + '</p>');
+        }
+
+        $('#sp_help').css('display', 'inherit');
+        if (sp.information_url || sp.privacy_statement_url) {
+            $('#sp_links').css('display', 'inherit');
+
+            if (sp.information_url) {
+                $('#sp_information_url').attr("href", sp.information_url);
+                $('#sp_information_url').text('Further Information');
+            }
+
+            if (sp.privacy_statement_url) {
+                $('#sp_privacy_statement_url').
+                attr("href", sp.privacy_statement_url);
+                $('#sp_privacy_statement_url').text('Privacy Statement');
+            }
+        }
     }
-    if (sp.logo_url) {
-      $('#sp_header_logo').attr("src", sp.logo_url);
+}
+
+/// Tabs
+function changeTab(target) {
+    var tab_id = target.attr('data-tab');
+
+    $('ul.tabs li').removeClass('current');
+    $('.tab-content').css('display', 'none');
+
+    target.addClass('current');
+    $("#" + tab_id).css('display', 'inherit');
+}
+
+function nextTab() {
+    var current = $(".tab.current");
+
+    // Check we're actually in tabbed mode, not rendered when only a single
+    // group of organisation tags is present.
+    if (current.length) {
+        current.removeClass('current');
+        $('.tab-content').removeClass('current');
+
+        var next = current.next();
+
+        if (next.length) {
+            changeTab(next);
+        } else {
+            var first = $(".tab:first");
+            changeTab(first);
+        }
     }
-    if (sp.information_url) {
-      $('#sp_header_information_url').attr("href", sp.information_url);
-      $('#sp_header_information_url').text('Service Information');
+}
+
+/// Identity Providers (s.a. Organisations)
+function enableSelectOrganisationButton(tr) {
+    $('.continue_button').attr('disabled', true);
+    tr.parents('form').find('.continue_button').attr('disabled', false);
+}
+
+function selectIdP(tr) {
+    $('.idp_selection_table tbody tr').removeClass('active');
+    tr.addClass('active');
+    enableSelectOrganisationButton(tr);
+}
+
+function nextIdP() {
+    var current = $('.idp.active:visible');
+    if (current.length) {
+        // nextAll as the immediate sibling may be hidden due to search
+        var next = current.nextAll(":visible").first();
+        if (next.length) {
+            selectIdP(next);
+            next[0].scrollIntoView({
+                block: "nearest"
+            });
+        }
+    } else {
+        var first = $('.idp:visible').first();
+        if (first.length) {
+            selectIdP(first);
+            first[0].scrollIntoView({
+                block: "nearest"
+            });
+        }
     }
-    if (sp.privacy_statement_url) {
-      $('#sp_header_privacy_statement_url').
-          attr("href", sp.privacy_statement_url);
-      $('#sp_header_privacy_statement_url').text('Privacy Statement');
+}
+
+function previousIdP() {
+    var current = $('.idp.active:visible');
+    if (current.length) {
+        // prevAll as the immediate sibling may be hidden due to search
+        var prev = current.prevAll(":visible").first();
+        if (prev.length) {
+            selectIdP(prev);
+            prev[0].scrollIntoView({
+                block: "nearest"
+            });
+        }
+    } else {
+        var last = $('.idp:visible').last();
+        if (last.length) {
+            selectIdP(last);
+            last[0].scrollIntoView({
+                block: "nearest"
+            });
+        }
     }
-  }
 }
 
-function setCursorToPointerOnIdPRows() {
-  $('#idp_selection_table tbody tr').css('cursor', 'pointer');
+function focusIdPSearchInput() {
+    $(".search_input:visible").first().focus();
+    return false; // Prevent shortcut key entering input field.
 }
 
-function hideButtonsAlongsideEachIdP() {
-  $('.select_organisation_input').hide();
+function toggleRememberIdP() {
+    $("[name=remember]:visible").first().click();
 }
 
-function renderLogo(logoURL) {
-  if (logoURL) {
-    return '<img class="ui image tiny bordered" src="' + logoURL + '">';
-  } else {
-    return '';
-  }
-}
+function searchActiveIdPList(input, key) {
+    var form = input.parents("form");
 
-function renderIdPDetails(idPName) {
-  return '<strong>' + decodeString(idPName) + '</strong><br/>';
-}
+    if (key.keyCode == 27 || key.keyCode == 9) {
+        input.blur();
+    } else {
+        var target = form.find(".idp_selection_table");
+        var table_rows = target.find("tr");
+        table_rows.removeClass('active');
 
-function renderEntityIdInput(entityID) {
-  return '<input class="select_organisation_input" name="' + entityID + '"' +
-      ' type="submit">';
-}
+        var val = $.trim(input.val()).replace(/[\W+_]/gi, '').toLowerCase();
+        if (val == "") {
+            table_rows.attr('hidden', false);
+        } else {
+            table_rows.not("[data-idp-name*='" + val + "']").attr('hidden', true);
+            table_rows.filter("[data-idp-name*='" + val + "']").attr('hidden', false);
+        }
 
-function buildDataset(idPData) {
-  return idPData.map(function (idP) {
-    return [idP.name, idP.logo_url, idP.entity_id, idP.tags];
-  });
-}
-
-function loadDataTable() {
-  var idpJson = $.parseJSON($('#idps').html());
-
-  $('#idp_selection_table').DataTable({
-    data: buildDataset(idpJson),
-    scrollCollapse: true,
-    paging: false,
-    sDom: '<"top">rt<"bottom"><"clear">',
-    columnDefs: [
-      {sClass: "idp_selection_table_name_column", targets: 0 },
-      {render: renderIdPDetails, targets: 0},
-      {sClass: "idp_selection_logo_column", targets: 1 },
-      {render: renderLogo, targets: 1},
-      {render: renderEntityIdInput, targets: 2},
-      {visible: false, targets: 3}
-    ],
-    aoColumns: [
-      {"bSearchable": true},
-      {"bSearchable": false},
-      {"bSearchable": false},
-      {"bSearchable": true}
-    ],
-    order: [[0, 'asc']],
-    bAutoWidth: false
-  });
-}
-
-function makeTabsClickable() {
-  $('#tab_menu .item').on('click', function () {
-    $('#tab_menu .item').removeClass('active');
-    $(this).addClass('active');
-    $('#idp_selection_table').DataTable().draw();
-    hideButtonsAlongsideEachIdP();
-    setTabIndexOnRows();
-    clearSearch();
-    unselectIdP();
-    setCursorToPointerOnIdPRows();
-  });
-}
-
-function performSearchOnIdPSearchKeyup() {
-  $('#search_input').keyup(function () {
-    $('#idp_selection_table').DataTable().search($(this).val()).draw();
-  })
-}
-
-function hideBasicModeWarningMessage() {
-  $('#basic_mode_warning_message').hide();
-}
-
-function hideTabMenu() {
-  $('#tab_menu').hide();
-}
-
-function preventEnterKey() {
-  $(window).keydown(function (event) {
-    if (event.keyCode == 13) {
-      var focusedIdPRow = $('#idp_selection_table tr:focus');
-      if (focusedIdPRow && selectIdPRow(focusedIdPRow)) {
-        $("#idp_selection_form").submit();
-        return true;
-      }
-      event.preventDefault();
-      return false;
+        var target = $('.idp_selection_table tbody tr:visible')
+        if (target.length) {
+            selectIdP(target.first());
+            target.first()[0].scrollIntoView({
+                block: "nearest"
+            });
+        }
     }
-  });
 }
 
-function setTabIndexOnRows() {
-  $('#select_organisation_button').attr('tabindex', 0);
-  $('#idp_selection_table tr:not(:first)').each(function () {
-    $(this).attr('tabindex', 0);
-  });
+function submitIdPSelection() {
+    var target = $('.idp.active:visible');
+    if (target.length) {
+        $('.idp_selection_form:visible').submit();
+        return false;
+    }
 }
 
-function initHandlers() {
-  preventEnterKey();
-  makeTabsClickable();
-  makeIdPRowsSelectable();
-  appendIdPSelectionOnFormSubmit();
-  submitFormOnSelectIdPButtonClick();
-  clearSearchOnClearButtonClick();
-  performSearchOnIdPSearchKeyup();
-  makeMessagesClosable();
+function enableContinueButton() {
+    $(".idp_selection_form").submit(function() {
+        var selectedIdP = $(".idp.active:visible .select_idp_button").attr('value');
 
+        if (selectedIdP.length) {
+            $('<input />').attr('type', 'hidden')
+                .attr('name', 'user_idp')
+                .attr('value', selectedIdP)
+                .appendTo($(this));
+        }
+    });
+
+    $(".continue_button").css("display", "inline-block");
 }
 
-function showJSEnabledElements() {
-  enableTabs();
-  showSearchOptions();
-  displayMainIdPSelectButton();
-  loadInitiatingSPDetails();
-  initialiseCheckbox();
-  focusSearchField();
-  enableHelpLink();
+/// Keyboard shortcuts
+Mousetrap.bind('s', function() {
+    return focusIdPSearchInput();
+});
+
+Mousetrap.bind('/', function() {
+    return focusIdPSearchInput();
+});
+
+Mousetrap.bind('t', function() {
+    nextTab();
+});
+
+Mousetrap.bind('j', function() {
+    nextIdP();
+});
+
+Mousetrap.bind('down', function() {
+    nextIdP();
+});
+
+Mousetrap.bind('k', function() {
+    previousIdP();
+});
+
+Mousetrap.bind('up', function() {
+    previousIdP();
+});
+
+Mousetrap.bind('r', function() {
+    toggleRememberIdP();
+});
+
+Mousetrap.bind('enter', function() {
+    submitIdPSelection();
+    return false;
+});
+
+function init() {
+    loadInitiatingSPDetails();
+
+    $('.idp_selection_table button').hide();
+    enableContinueButton();
+
+    $('.tag-heading').css('display', 'none');
+    $('.tabs').css('display', 'inherit');
+    $('.tab-content:not(:first)').css('display', 'none');
+    $('.tab').click(function() {
+        changeTab($(this));
+    });
+
+    // Force scrollbars to always be present when content is larger than 
+    // container browsers mostly hide scrollbars by default now which is not 
+    // user friendly in our particular case.
+    if (navigator.userAgent.indexOf('Firefox') > -1) {
+        $('.scroll-element').css('display', 'none');
+    } else {
+        $('.scrollbar-inner').scrollbar();
+    }
+
+    // Active and visible are dynamic hence we need to pass these selectors 
+    // to 'on'
+    $('.idp_selection_table').on('click', '.idp:visible', function() {
+        selectIdP($(this));
+    });
+
+    $('.idp_selection_table').on('click', '.idp.active:visible', function() {
+        submitIdPSelection();
+    });
+
+    $('.continue_button').on('click', function() {
+        submitIdPSelection();
+    });
+
+    $(".search_input").css("display", "inherit");
+    $('.search_input').keyup(function(key) {
+        searchActiveIdPList($(this), key);
+    });
+
+    // Content is styled and ready so show it. Prevents ugly 
+    // "flash of unstyled content" from plaguing us. (Well me...).
+    $(".no-fouc").removeClass("no-fouc");
 }
-
-function initRichClient() {
-  hideBasicModeWarningMessage();
-  showJSEnabledElements();
-
-  initHandlers();
-  loadDataTable();
-
-  hideButtonsAlongsideEachIdP();
-  initScroller();
-  setCursorToPointerOnIdPRows();
-  setTabIndexOnRows();
-}
-
-function initBasicClient() {
-  hideTabMenu();
-}
-
-function initGroupPage() {
-  if (ie9OrEarlier()) {
-    initBasicClient();
-  } else {
-    initRichClient();
-  }
-}
-
-function ie9OrEarlier() {
-  return document.documentMode && document.documentMode <= 9;
-}
-

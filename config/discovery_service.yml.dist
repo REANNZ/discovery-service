@@ -1,36 +1,22 @@
 ---
 :saml_service:
   :url: http://localhost:8080/entities
-
 :groups:
-  :tuakiri:
-    :filters:
-      - [tuakiri, other]
-    :tag_groups:
-      false
   :aaf:
     :filters:
-      - [discovery, aaf]
-      - [sp, aaf]
-      - [idp, aaf]
-      - [tuakiri]
+      - [aaf]
     :tag_groups:
-      - :name: 'Australia'
-        :tag: 'aaf'
-      - :name: 'New Zealand'
-        :tag: 'tuakiri'
+      - :name: Australia
+        :tag: aaf
   :edugain:
     :filters:
-      - [discovery, aaf]
-      - [discovery, tuakiri]
-      - [discovery, edugain]
+      - [aaf]
+      - [aaf-edugain-verified]
     :tag_groups:
-      - :name: 'Australia'
-        :tag: 'aaf'
-      - :name: 'New Zealand'
-        :tag: 'tuakiri'
-      - :name: 'International'
-        :tag: '*'
+      - :name: Australia
+        :tag: aaf
+      - :name: International
+        :tag: aaf-edugain-verified
 
 :environment:
   :name: 'Test Environment'

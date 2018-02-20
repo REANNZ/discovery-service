@@ -53,27 +53,4 @@ RSpec.describe DiscoveryService::Renderer::Helpers::Group do
       end
     end
   end
-
-  describe '#all_tag?' do
-    subject { instance.all_tag?(tag_groups) }
-    let(:other_tag_groups) do
-      tag_groups.reject { |t| t[:tag] == '*' }
-    end
-
-    let(:all_tag_group) do
-      tag_groups.select { |t| t[:tag] == '*' }
-    end
-
-    it 'returns false for tags not configured as "*"' do
-      other_tag_groups.each do |t|
-        expect(instance.all_tag?(t)).to be_falsey
-      end
-    end
-
-    it 'returns true for tags configured as "*"' do
-      all_tag_group.each do |t|
-        expect(instance.all_tag?(t)).to be_truthy
-      end
-    end
-  end
 end

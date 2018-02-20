@@ -3,12 +3,6 @@
 require 'sinatra/base'
 require 'sinatra/cookies'
 require 'sinatra/asset_pipeline'
-require 'rails-assets-jquery'
-require 'rails-assets-semantic-ui'
-require 'rails-assets-datatables'
-require 'rails-assets-slimscroll'
-require 'sprockets'
-require 'sprockets-helpers'
 require 'json'
 require 'uri'
 

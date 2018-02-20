@@ -1,9 +1,7 @@
-.ui.mobile.stackable.padded.grid
-  .sixteen.wide.column
-    == Slim::Template.new('views/_header.slim').render
-.ui.negative.message
-  .header
-    | Oops! The organisation you selected isn't available anymore.
-  | This was probably caused by an internal problem on our end.
-  br /
+  h2 We seem to have misplaced something
+  p The organisation you selected isn't available anymore.
+  p This was probably caused by an internal problem on our end as organisations usually don't just disappear.
+
   == Slim::Template.new('views/_support.slim').render
+
+  br/
