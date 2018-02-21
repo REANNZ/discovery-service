@@ -120,8 +120,6 @@ GEM
       rack
     rack-test (0.7.0)
       rack (>= 1.0, < 3)
-    rails-assets-datatables (1.10.16)
-      rails-assets-jquery (>= 1.7.0)
     rails-assets-jquery (3.2.1)
     rails-assets-jquery.scrollbar (0.2.11)
       rails-assets-jquery (>= 1.7)
@@ -252,7 +250,6 @@ DEPENDENCIES
   pry
   rack (~> 1.0)
   rack-test
-  rails-assets-datatables!
   rails-assets-jquery!
   rails-assets-jquery.scrollbar!
   rails-assets-mousetrap!
