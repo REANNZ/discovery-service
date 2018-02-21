@@ -1,10 +1,6 @@
-.ui.mobile.stackable.padded.grid
-  .sixteen.wide.column
-    == Slim::Template.new('views/_header.slim').render
-.ui.negative.message
-  .header
-    | Bad request
-  | Oops, we received a request from your browser that didn't make sense. Sorry about that, this was probably caused by an internal problem on our end.
-  br /
+  h2 Bad request
+  p Oops, we received a request from your browser that didn't make sense. This was probably caused by an internal problem on our end.
+
   == Slim::Template.new('views/_support.slim').render
+  br /
 

@@ -1,27 +1,26 @@
-.ui.mobile.stackable.padded.grid
-  .sixteen.wide.column
-    == Slim::Template.new('views/_header.slim').render
 - if @idps && @idps.any?
-  .ui.attached.message
-    .header
+    h2 
       | Your saved organisation#{@idps.length > 1 ? 's' : ''}
-    p When you access a service, you will be automatically sent to #{@idps.length > 1 ? 'one of these organisations' : 'this organisation'} to log in. You can reset this, and you'll be asked to select your organisation next time you access a service.
-  .ui.attached.fluid.segment
-    table[id="idp_reset_selection_table" class="ui celled table"]
-      tbody
-        - @idps.each do |idp|
-          tr
-            td.idp_selection_table_name_column
-              strong
-                == idp[:name]
-            td.idp_selection_logo_column
-              - if idp[:logo_url]
-                img.ui.image.tiny.bordered src="#{idp[:logo_url]}" /
-    form[action="" method="POST"]
-      button[type="submit" id="reset_idp_selection_button" class="button ui fluid button btn-accessible large primary"] Reset
+    p 
+      | When you access a service, you will be automatically sent to #{@idps.length > 1 ? 'one of these organisations' : 'this organisation'} to log in. 
+      
+    p
+      | You can reset this, and you'll be asked to select your organisation next time you access a service.
+
+    div[id="idp_reset_selection"]
+      table
+        tbody
+          - @idps.each do |idp|
+            tr
+              td
+                  == idp[:name]
+              td
+                form[action="" method="POST"]
+                  button[type="submit" id="reset_idp_selection_button" class="button"] Reset
 - else
-  .ui.info.message
-    .header
-      | You have no saved organisations.
-    | Next login, select <em>"Remember this selection permanently"</em> to save your organisation.
-  br /
+    h2 
+      | You have no saved organisations
+    p
+      | Next login, select <strong>"Remember this selection permanently"</strong> to save your organisation.
+
+    br /

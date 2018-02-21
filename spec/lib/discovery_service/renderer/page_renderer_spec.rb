@@ -10,9 +10,12 @@ RSpec.describe DiscoveryService::Renderer::PageRenderer do
       { name: Faker::Lorem.word, status_url: Faker::Internet.url }
     end
 
+    let(:tag1) { Faker::Address.country_code }
+    let(:tag2) { Faker::Address.country_code }
+
     let(:tag_groups) do
-      [{ name: Faker::Address.country, tag: Faker::Address.country_code },
-       { name: Faker::Address.country, tag: Faker::Address.country_code },
+      [{ name: Faker::Address.country, tag: :tag1 },
+       { name: Faker::Address.country, tag: :tag2 },
        { name: Faker::Address.country, tag: '*' }]
     end
 
@@ -41,8 +44,7 @@ RSpec.describe DiscoveryService::Renderer::PageRenderer do
 
     it 'includes the link to status' do
       expect(subject)
-        .to include("<a href=\"#{environment[:status_url]}\""\
-                           ' target="_blank">Federation Status</a>')
+        .to include("href=\"#{environment[:status_url]}\"")
     end
 
     it 'includes the environment name' do
@@ -51,24 +53,23 @@ RSpec.describe DiscoveryService::Renderer::PageRenderer do
 
     context 'with idps' do
       let(:group_name) { Faker::Lorem.word }
-      let(:select_button_class) do
-        'button ui floated right button small'\
-        ' select_organisation_input'
-      end
+      let(:select_button_class) { 'select_idp_button' }
 
       let(:idp_1) do
         { name: CGI.escapeHTML(Faker::University.name),
-          entity_id: Faker::Internet.url }
+          entity_id: Faker::Internet.url,
+          tags: %i[tag1 tag2] }
       end
       let(:idp_2) do
         { name: CGI.escapeHTML(Faker::University.name),
-          entity_id: Faker::Internet.url }
+          entity_id: Faker::Internet.url,
+          tags: %i[tag1 tag2] }
       end
 
       let(:idps) { [idp_1, idp_2] }
 
       let(:expected_open_form_tag) do
-        '<form id="idp_selection_form" method="POST">'
+        '<form class="idp_selection_form" method="POST" tabindex="1">'
       end
 
       it 'includes the selection string' do
@@ -95,8 +96,8 @@ RSpec.describe DiscoveryService::Renderer::PageRenderer do
 
       it 'includes the main (javascript enabled) idp selection button' do
         expect(subject)
-          .to include('<div class="ui fluid button btn-accessible large'\
-            ' primary" id="select_organisation_button">')
+          .to include('<span class="continue_button button" disabled="">'\
+                      'Continue to your organisation</span>')
       end
 
       it 'includes the organisations to select' do
@@ -108,7 +109,8 @@ RSpec.describe DiscoveryService::Renderer::PageRenderer do
         let(:lang) { 'en' }
 
         let(:idp_1) do
-          { name: 'James&#39;s IdP', entity_id: Faker::Internet.url }
+          { name: 'James&#39;s IdP', entity_id: Faker::Internet.url,
+            tags: [:tag1] }
         end
 
         it 'does not get escaped again' do
@@ -117,23 +119,25 @@ RSpec.describe DiscoveryService::Renderer::PageRenderer do
       end
 
       it 'includes the first tab' do
-        expect(subject).to include('<a class="item" '\
-          "data-tab=\"#{tag_groups.first[:tag]}\">"\
+        expect(subject).to include('<li class="current tab" '\
+          "data-tab=\"tag-#{tag_groups.first[:tag]}\">"\
           "#{CGI.escapeHTML(tag_groups.first[:name])}")
       end
 
       it 'includes the middle tabs (allowed to be hidden)' do
         ts = tag_groups - [tag_groups.first, tag_groups.last]
         ts.each do |t|
-          expect(subject).to include('<a class="item can_hide" '\
-          "data-tab=\"#{t[:tag]}\">#{CGI.escapeHTML(t[:name])}")
+          expect(subject).to include('<li class=" tab" '\
+            "data-tab=\"tag-#{t[:tag]}\">"\
+            "#{CGI.escapeHTML(t[:name])}")
         end
       end
 
       it 'includes the last tab (configured as "*")' do
         t = tag_groups.find { |tag_group| tag_group[:tag] == '*' }
-        expect(subject).to include('<a class="item active" '\
-            "data-tab=\"#{t[:tag]}\">#{CGI.escapeHTML(t[:name])}")
+        expect(subject).to include('<li class=" tab" '\
+          "data-tab=\"tag-#{t[:tag]}\">"\
+          "#{CGI.escapeHTML(t[:name])}")
       end
     end
   end
