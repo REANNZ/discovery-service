@@ -28,7 +28,7 @@ div[id="sp"]
     - tag_groups.each_with_index do |tag_group, i|
       div[class="tab-content #{(i == 0 ?'current':'')}" id="tag-#{tag_group[:tag]}"]
         - if tag_groups.length > 1
-          h3[class="tag-heading"] 
+          h3[class="tag-heading"]
             | #{tag_group[:name]}
         form[class="idp_selection_form" method="POST" tabindex="1"]
           .field
@@ -54,12 +54,12 @@ div[id="sp"]
             div[class="left"]
               .field
                 span
-                  label[class="remember_selection"] 
+                  label[class="remember_selection"]
                     input[name="remember" type="checkbox" tabindex="-1"]
                     span[class="checkable"]
-                      | Remember this selection permanently
+                      | Remember my organisation
             div[class="right"]
-              a Keyboard shortcuts 
+              a Keyboard shortcuts
 
           div.keyboard_shortcuts
             h4 Available keyboard shortcuts
