@@ -231,10 +231,12 @@ a:hover {
 
 .idp {
   cursor: pointer;
+  border-left: 6px solid #fff;
 }
 
 .idp_selection_table tbody tr.active {
   background-color: #f2f2f2;
+  border-left: 6px solid #007bc5;
 }
 
 .idp_selection_table tbody tr:first-child {
