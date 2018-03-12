@@ -7,8 +7,6 @@ require 'json'
 require 'uri'
 
 # rubocop:disable Metrics/ClassLength
-# TODO: Reenable this cop
-
 module DiscoveryService
   # Web application to allow users to select their IdP
   class Application < Sinatra::Base
@@ -169,3 +167,4 @@ module DiscoveryService
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
