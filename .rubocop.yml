@@ -4,6 +4,10 @@ inherit_gem:
 Rails:
   Enabled: false
 
-Lint/RescueWithoutErrorClass:
+Style/RescueStandardError:
   Exclude:
     - lib/discovery_service/event_consignment.rb
+
+Style/MixinUsage:
+  Exclude:
+    - bin/setup

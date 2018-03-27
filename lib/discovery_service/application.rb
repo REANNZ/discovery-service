@@ -3,18 +3,10 @@
 require 'sinatra/base'
 require 'sinatra/cookies'
 require 'sinatra/asset_pipeline'
-require 'rails-assets-jquery'
-require 'rails-assets-semantic-ui'
-require 'rails-assets-datatables'
-require 'rails-assets-slimscroll'
-require 'sprockets'
-require 'sprockets-helpers'
 require 'json'
 require 'uri'
 
 # rubocop:disable Metrics/ClassLength
-# TODO: Reenable this cop
-
 module DiscoveryService
   # Web application to allow users to select their IdP
   class Application < Sinatra::Base
@@ -29,8 +21,7 @@ module DiscoveryService
     attr_reader :redis
 
     set :assets_precompile,
-        %w[application.js style-rich.css style-basic.css
-           *.eot *.woff *.woff2 *.ttf]
+        %w[application.js application.css]
     set :assets_css_compressor, :sass
     set :assets_js_compressor, :uglifier
 
@@ -176,3 +167,4 @@ module DiscoveryService
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

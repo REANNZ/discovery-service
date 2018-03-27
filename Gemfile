@@ -25,10 +25,10 @@ gem 'therubyracer', require: false
 gem 'uglifier', require: false
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-datatables'
   gem 'rails-assets-jquery'
-  gem 'rails-assets-semantic-ui'
-  gem 'rails-assets-slimscroll'
+  gem 'rails-assets-jquery.scrollbar'
+  gem 'rails-assets-mousetrap'
+  gem 'rails-assets-picnic'
 end
 
 group :development, :test do

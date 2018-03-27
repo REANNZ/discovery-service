@@ -20,7 +20,7 @@ RSpec.describe DiscoveryService::Metadata::Updater do
                                    { name: 'New Zealand', tag: 'tuakiri' }] },
                   tuakiri:
                       { filters: [%w[discovery tuakiri]],
-                        tag_groups:  false } },
+                        tag_groups:  [{ name: 'Tuakiri', tag: 'tuakiri' }] } },
         environment: { name: Faker::Lorem.word, status: Faker::Internet.url } }
     end
 

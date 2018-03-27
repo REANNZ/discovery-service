@@ -8,4 +8,5 @@ Bundler.require(:default)
 require_relative './init.rb'
 require 'discovery_service'
 
+use Rack::Deflater
 run DiscoveryService::Application

@@ -32,13 +32,9 @@ limitations under the License.
 
 AAF's Discovery Service – a SAML 2.0 compliant Discovery Service written in Ruby
 
-## Deployment
-
-TBD
-
 ## Setting up a development environment
 
-Please see [Developer Notes](developer_notes.md).
+Please see [development](development).
 
 ## Browser Support
 
