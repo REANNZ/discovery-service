@@ -12,7 +12,7 @@ gem 'redis'
 gem 'redis-namespace'
 gem 'slim'
 
-gem 'activesupport'
+gem 'activesupport', '~> 5.1.0'
 gem 'hashdiff'
 gem 'json-jwt'
 gem 'rack', '~> 1.0'
