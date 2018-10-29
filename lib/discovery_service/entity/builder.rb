@@ -32,8 +32,8 @@ module DiscoveryService
           latitude = geolocation[:longitude]
           longitude = geolocation[:latitude]
           escaped_geolocation = {}
-          escaped_geolocation[:longitude] = CGI.escapeHTML(latitude)
-          escaped_geolocation[:latitude] = CGI.escapeHTML(longitude)
+          escaped_geolocation[:longitude] = CGI.escapeHTML(latitude.to_s)
+          escaped_geolocation[:latitude] = CGI.escapeHTML(longitude.to_s)
           escaped_geolocation
         end
       end

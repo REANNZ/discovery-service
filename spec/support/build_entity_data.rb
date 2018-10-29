@@ -5,8 +5,8 @@ require 'active_support/core_ext/hash'
 RSpec.shared_context 'build_entity_data' do
   def build_idp_data(tags = nil, lang = nil, name = nil)
     entity_data = build_entity_data(tags, lang, name)
-    entity_data[:geolocations] = [{ longitude: Faker::Address.longitude,
-                                    latitude: Faker::Address.latitude }]
+    entity_data[:geolocations] = [{ longitude: Faker::Address.longitude.to_s,
+                                    latitude: Faker::Address.latitude.to_s }]
     entity_data[:single_sign_on_endpoints] = { soap: [Faker::Internet.url] }
     entity_data
   end
