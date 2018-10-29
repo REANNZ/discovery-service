@@ -57,6 +57,7 @@ module DiscoveryService
         privacy_statement_url = value(:privacy_statement_urls, :url,
                                       entity, lang)
         return unless privacy_statement_url
+
         entry[:privacy_statement_url] = privacy_statement_url
       end
 
@@ -67,6 +68,7 @@ module DiscoveryService
 
       def value(field, key, entity, lang)
         return nil unless entity[field]
+
         values = entity[field].select { |value| value[:lang] == lang }
         value = values.first
         CGI.escapeHTML(value[key]) if value&.key?(key)

@@ -26,10 +26,10 @@ RSpec.shared_context 'build_entity_data' do
   end
 
   def build_entity_data(tags = nil, specified_lang = nil, name = nil)
-    lang = specified_lang ? specified_lang : Faker::Lorem.characters(2)
+    lang = specified_lang || Faker::Lorem.characters(2)
     {
       entity_id: Faker::Internet.url,
-      names: [{ value: name ? name : Faker::University.name, lang: lang }],
+      names: [{ value: name || Faker::University.name, lang: lang }],
       tags: tags.nil? ? [Faker::Lorem.word, Faker::Lorem.word] : tags,
       logos: [{ url: Faker::Company.logo, lang: lang }],
       domains: [Faker::Internet.domain_name]

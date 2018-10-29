@@ -56,9 +56,11 @@ module DiscoveryService
 
       def discovery_response(group, entity_id)
         return nil unless entities_exist?(group)
+
         entities = build_entities(entities(group))
         return nil unless entities.key?(entity_id) &&
                           entities[entity_id].key?(:discovery_response)
+
         entities[entity_id][:discovery_response]
       end
 

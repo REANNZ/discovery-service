@@ -190,7 +190,7 @@ RSpec.describe DiscoveryService::Application do
             expect(last_response.body)
               .to include(CGI.escapeHTML(
                             existing_entity[:names].first[:value]
-              ))
+                          ))
           end
         end
       end
@@ -222,7 +222,7 @@ RSpec.describe DiscoveryService::Application do
           expect(last_response.body)
             .to include(CGI.escapeHTML(
                           existing_entity[:names].first[:value]
-            ))
+                        ))
           expect(last_response.body)
             .to include(CGI.escapeHTML(other_entity[:names].first[:value]))
         end
@@ -1073,7 +1073,7 @@ RSpec.describe DiscoveryService::Application do
             URI.encode_www_form_component(
               JSON.generate(other_selected_organisation_hash.merge(
                               cookie_as_hash
-              ))
+                            ))
             )
           end
 

@@ -16,6 +16,7 @@ module DiscoveryService
           entities.nil? || entities.each_with_object(result) do |e, hash|
             entity_type = entity_type_from_tags(e)
             next unless entity_type
+
             entry = build_entry(e, lang, entity_type)
             hash[entity_type] << entry
             tag_set.merge(entry[:tags])
