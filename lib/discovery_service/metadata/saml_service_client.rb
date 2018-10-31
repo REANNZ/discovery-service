@@ -29,8 +29,8 @@ module DiscoveryService
         client.start { |http| yield http }
       end
 
-      def log_error(e, saml_service_url)
-        logger.error "SAMLService HTTPServerException #{e.message} while" \
+      def log_error(error, saml_service_url)
+        logger.error "SAMLService HTTPServerException #{error.message} while" \
             " invoking #{saml_service_url}"
       end
     end

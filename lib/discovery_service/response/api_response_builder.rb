@@ -9,6 +9,7 @@ module DiscoveryService
         result[:identity_providers] = []
         entities.each do |entity_id, entity|
           next unless entity[:tags].include?('idp')
+
           fields = entity.slice(:names, :logos, :tags,
                                 :single_sign_on_endpoints)
           result[:identity_providers] << { entity_id: entity_id }.merge(fields)
