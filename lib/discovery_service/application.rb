@@ -127,7 +127,7 @@ module DiscoveryService
         record_cookie_selection(request, params, unique_id, saved_user_idp)
         handle_response(params)
       elsif passive?(params) && params[:return]
-        redirect to(params[:return])
+        handle_response(params)
       elsif group_exists?(group)
         @entity_cache.group_page(group)
       else
