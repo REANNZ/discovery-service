@@ -6,3 +6,4 @@ config/discovery_service.yml
 config/deploy.yml
 config/event_encryption_key.pem
 .sass-cache
+.idea
