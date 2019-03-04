@@ -54,6 +54,8 @@ module DiscoveryService
         HashDiff.diff(stored_entities, to_hash(entities))
       end
 
+      # Indicates the 'default' discovery profile URL for the
+      # supplied entity_id
       def default_discovery_response(group, entity_id)
         return nil unless entities_exist?(group)
 
@@ -62,6 +64,19 @@ module DiscoveryService
                           entities[entity_id].key?(:discovery_response)
 
         entities[entity_id][:discovery_response]
+      end
+
+      # Provides all discovery profile URL for the supplied entity_id
+      def all_discovery_response(group, entity_id)
+        return nil unless entities_exist?(group)
+
+        entities = build_entities(entities(group))
+        return nil unless entities.key?(entity_id) &&
+                          entities[entity_id].key?(
+                            :all_discovery_response_endpoints
+                          )
+
+        entities[entity_id][:all_discovery_response_endpoints]
       end
 
       private

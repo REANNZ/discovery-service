@@ -14,6 +14,8 @@ RSpec.shared_context 'build_entity_data' do
   def build_sp_data(tags = nil, lang = nil)
     entity_data = build_entity_data(tags, lang)
     entity_data[:discovery_response] = Faker::Internet.url
+    entity_data[:all_discovery_response_endpoints] =
+      [entity_data[:discovery_response]]
     entity_data[:information_urls] = [{ url: Faker::Internet.url, lang: lang }]
     entity_data[:descriptions] = [{ value: Faker::Lorem.sentence, lang: lang }]
     entity_data[:privacy_statement_urls] =
