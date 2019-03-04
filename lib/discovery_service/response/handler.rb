@@ -5,10 +5,12 @@ module DiscoveryService
     # Module to handle user redirect / response
     module Handler
       def handle_response(params)
+        ddre = default_discovery_response(params)
+
         if params[:return]
           redirect_to(params[:return], params)
-        elsif discovery_response(params)
-          redirect_to(discovery_response(params), params)
+        elsif ddre
+          redirect_to(ddre, params)
         else
           status 404
         end
@@ -16,8 +18,9 @@ module DiscoveryService
 
       private
 
-      def discovery_response(params)
-        @entity_cache.discovery_response(params[:group], params[:entityID])
+      def default_discovery_response(params)
+        @entity_cache.default_discovery_response(params[:group],
+                                                 params[:entityID])
       end
 
       def redirect_to(return_url, params)

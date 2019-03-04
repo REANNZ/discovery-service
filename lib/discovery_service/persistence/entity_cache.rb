@@ -54,7 +54,7 @@ module DiscoveryService
         HashDiff.diff(stored_entities, to_hash(entities))
       end
 
-      def discovery_response(group, entity_id)
+      def default_discovery_response(group, entity_id)
         return nil unless entities_exist?(group)
 
         entities = build_entities(entities(group))
