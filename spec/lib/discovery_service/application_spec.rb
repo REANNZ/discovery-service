@@ -872,8 +872,8 @@ RSpec.describe DiscoveryService::Application do
     let(:existing_sp) { build_sp_data(['sp', group_name]) }
     let(:selected_idp) { existing_idp[:entity_id] }
     let(:form_content) { { user_idp: selected_idp } }
-    let(:requesting_sp) { Faker::Internet.url }
-    let(:sp_return_url) { Faker::Internet.url }
+    let(:requesting_sp) { existing_sp[:entity_id] }
+    let(:sp_return_url) { existing_sp[:all_discovery_response_endpoints].first }
     let(:unique_id) { SecureRandom.urlsafe_base64 }
     let(:base_path) { "/discovery/#{group_name}/#{unique_id}" }
 
@@ -996,12 +996,43 @@ RSpec.describe DiscoveryService::Application do
           run
         end
 
-        it 'returns http status code 302' do
-          expect(last_response.status).to eq(302)
+        context 'without enforcing return url configured' do
+          it 'returns http status code 302' do
+            expect(last_response.status).to eq(302)
+          end
+
+          it 'redirects back to sp using return url value' do
+            expect_matching_response(sp_return_url, 'entityID' => selected_idp)
+          end
         end
 
-        it 'redirects back to sp using return url value' do
-          expect_matching_response(sp_return_url, 'entityID' => selected_idp)
+        context 'with enforcing return url configured' do
+          let(:config) do
+            { restrict_return_url: true, groups: {}, environment:
+                { name: environment_name, status_url: environment_status_url } }
+          end
+
+          context 'with valid return url provided' do
+            it 'returns http status code 302' do
+              expect(last_response.status).to eq(302)
+            end
+
+            it 'redirects back to sp using return url value' do
+              expect_matching_response(sp_return_url,
+                                       'entityID' => selected_idp)
+            end
+          end
+
+          context 'with invalid return url provided' do
+            let(:path) do
+              "#{base_path}?entityID=#{requesting_sp}"\
+                '&return=https://attacker.com'
+            end
+
+            it 'returns http status code 403' do
+              expect(last_response.status).to eq(403)
+            end
+          end
         end
       end
 

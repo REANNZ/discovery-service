@@ -4,19 +4,53 @@ module DiscoveryService
   module Response
     # Module to handle user redirect / response
     module Handler
+      # rubocop:disable Metrics/LineLength, Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       def handle_response(params)
-        ddre = default_discovery_response(params)
+        # Flow per sstc-saml-idp-discovery 2.4/5
+        # Attempt to return to metadata valid return parameter else fallback
+        # to default discovery service url specified for this SP
+        return_url = params[:return]
 
-        if params[:return]
-          redirect_to(params[:return], params)
-        elsif ddre
-          redirect_to(ddre, params)
+        # This is more verbose than necessary so we can log what is going on
+        # in detail with config disabled. Ideally over some period of time
+        # we won't see any cases where a return URL will not be blocked
+        # due to data already existing or being added to metadata and
+        # this code will be simplified.
+        if return_url && !return_url.empty?
+          if DiscoveryService.configuration[:restrict_return_url]
+            if valid_return_url(params, return_url)
+              @logger.info("Return URL provided by '#{params[:entityID]}' was valid")
+              return redirect_to(return_url, params)
+            else
+              @logger.error("Return URL provided by '#{params[:entityID]}' was invalid, rejecting value")
+              return status 403
+            end
+          else
+            if valid_return_url(params, return_url)
+              @logger.info("Return URL provided by '#{params[:entityID]}' was valid (config diabled)")
+            else
+              @logger.error("Return URL provided by '#{params[:entityID]}' was invalid, would be rejected (config disabled)")
+            end
+            return redirect_to(return_url, params)
+          end
         else
+          @logger.info("Return URL not provided by '#{params[:entityID]}', fallback to default")
+          return_url = default_discovery_response(params)
+          return redirect_to(return_url, params) if return_url
+
+          @logger.info("Default return URL for '#{params[:entityID]}', not found")
           status 404
         end
       end
+      # rubocop:enable Metrics/LineLength, Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
       private
+
+      def valid_return_url(params, return_url)
+        @entity_cache
+          .all_discovery_response(params[:group],
+                                  params[:entityID])&.include?(return_url)
+      end
 
       def default_discovery_response(params)
         @entity_cache.default_discovery_response(params[:group],
