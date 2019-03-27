@@ -20,10 +20,10 @@ module DiscoveryService
           if DiscoveryService.configuration[:restrict_return_url]
             if valid_return_url(params, return_url)
               @logger.info("Return URL provided by '#{params[:entityID]}' was valid")
-              return redirect_to(return_url, params)
+              redirect_to(return_url, params)
             else
               @logger.error("Return URL provided by '#{params[:entityID]}' was invalid, rejecting value")
-              return status 403
+              status 403
             end
           else
             if valid_return_url(params, return_url)
@@ -31,7 +31,7 @@ module DiscoveryService
             else
               @logger.error("Return URL provided by '#{params[:entityID]}' was invalid, would be rejected (config disabled)")
             end
-            return redirect_to(return_url, params)
+            redirect_to(return_url, params)
           end
         else
           @logger.info("Return URL not provided by '#{params[:entityID]}', fallback to default")
