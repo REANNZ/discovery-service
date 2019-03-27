@@ -97,6 +97,11 @@ module DiscoveryService
       slim :selected_idps
     end
 
+    def entity_exists?(group, entity_id)
+      entities = @entity_cache.entities_as_hash(group)
+      entities&.key?(entity_id)
+    end
+
     before %r{\A/discovery/([^/]+)(/.+)?\z} do |group, _|
       halt 400 unless valid_group_name?(group) && uri?(params[:entityID])
       halt 404 unless group_configured?(group)
@@ -108,11 +113,6 @@ module DiscoveryService
       path = "/discovery/#{group}/#{id}"
       path += "?#{request.query_string}" if request.query_string != ''
       redirect to(path)
-    end
-
-    def entity_exists?(group, entity_id)
-      entities = @entity_cache.entities_as_hash(group)
-      entities&.key?(entity_id)
     end
 
     get '/discovery/:group/:unique_id' do |group, unique_id|
@@ -127,20 +127,12 @@ module DiscoveryService
         record_cookie_selection(request, params, unique_id, saved_user_idp)
         handle_response(params)
       elsif passive?(params) && params[:return]
-        redirect to(params[:return])
+        handle_response(params)
       elsif group_exists?(group)
         @entity_cache.group_page(group)
       else
         status 404
       end
-    end
-
-    get '/api/discovery/:group' do |group|
-      content_type 'application/json;charset=utf-8'
-      return 400 unless valid_group_name?(group) && group_configured?(group)
-
-      entities = @entity_cache.entities_as_hash(group)
-      JSON.generate(build_api_response(entities))
     end
 
     post '/discovery/:group/:unique_id' do |group, unique_id|
@@ -155,6 +147,14 @@ module DiscoveryService
 
       record_manual_selection(request, params, unique_id)
       handle_response(params)
+    end
+
+    get '/api/discovery/:group' do |group|
+      content_type 'application/json;charset=utf-8'
+      return 400 unless valid_group_name?(group) && group_configured?(group)
+
+      entities = @entity_cache.entities_as_hash(group)
+      JSON.generate(build_api_response(entities))
     end
 
     get '/error/missing_idp' do
