@@ -4,7 +4,7 @@ module DiscoveryService
   module Response
     # Module to handle user redirect / response
     module Handler
-      # rubocop:disable Metrics/LineLength, Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      # rubocop:disable Metrics/LineLength, Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
       def handle_response(params)
         # Flow per sstc-saml-idp-discovery 2.4/5
         # Attempt to return to metadata valid return parameter else fallback
@@ -16,7 +16,7 @@ module DiscoveryService
         # we won't see any cases where a return URL will not be blocked
         # due to data already existing or being added to metadata and
         # this code will be simplified.
-        if return_url && !return_url.empty?
+        if return_url&.present?
           if DiscoveryService.configuration[:restrict_return_url]
             if valid_return_url(params, return_url)
               @logger.info("Return URL provided by '#{params[:entityID]}' was valid")
@@ -42,7 +42,7 @@ module DiscoveryService
           status 404
         end
       end
-      # rubocop:enable Metrics/LineLength, Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      # rubocop:enable Metrics/LineLength, Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
 
       private
 
