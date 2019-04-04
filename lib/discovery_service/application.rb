@@ -19,6 +19,7 @@ module DiscoveryService
     include DiscoveryService::EmbeddedWAYF
 
     attr_reader :redis
+    attr_reader :logger
 
     set :assets_precompile,
         %w[application.js application.css]
@@ -48,7 +49,7 @@ module DiscoveryService
       @entity_cache = DiscoveryService::Persistence::EntityCache.new
       @groups = DiscoveryService.configuration[:groups]
       @environment = DiscoveryService.configuration[:environment]
-      @logger.info('Initialised with group configuration: '\
+      logger.info('Initialised with group configuration: '\
         "#{JSON.pretty_generate(@groups)}")
       @redis = Redis::Namespace.new(:discovery_service, redis: Redis.new)
     end
