@@ -19,26 +19,26 @@ module DiscoveryService
         if return_url&.present?
           if DiscoveryService.configuration[:restrict_return_url]
             if valid_return_url(params, return_url)
-              @logger.info("Return URL provided by '#{params[:entityID]}' was valid")
+              logger.info("Return URL provided by '#{params[:entityID]}' was valid")
               redirect_to(return_url, params)
             else
-              @logger.error("Return URL provided by '#{params[:entityID]}' was invalid, rejecting value")
+              logger.error("Return URL provided by '#{params[:entityID]}' was invalid, rejecting value")
               status 403
             end
           else
             if valid_return_url(params, return_url)
-              @logger.info("Return URL provided by '#{params[:entityID]}' was valid (config diabled)")
+              logger.info("Return URL provided by '#{params[:entityID]}' was valid (config disabled)")
             else
-              @logger.error("Return URL provided by '#{params[:entityID]}' was invalid, would be rejected (config disabled)")
+              logger.error("Return URL provided by '#{params[:entityID]}' was invalid, would be rejected (config disabled)")
             end
             redirect_to(return_url, params)
           end
         else
-          @logger.info("Return URL not provided by '#{params[:entityID]}', fallback to default")
+          logger.info("Return URL not provided by '#{params[:entityID]}', fallback to default")
           return_url = default_discovery_response(params)
           return redirect_to(return_url, params) if return_url
 
-          @logger.info("Default return URL for '#{params[:entityID]}', not found")
+          logger.info("Default return URL for '#{params[:entityID]}', not found")
           status 404
         end
       end
