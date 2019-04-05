@@ -47,9 +47,12 @@ module DiscoveryService
       private
 
       def valid_return_url(params, return_url)
+        # Per sstc-saml-idp-discovery the query path is not relevant
+        # remove it if it exists in the return_url
+        ru = return_url [/[^\?]+/]
         @entity_cache
           .all_discovery_response(params[:group],
-                                  params[:entityID])&.include?(return_url)
+                                  params[:entityID])&.include?(ru)
       end
 
       def default_discovery_response(params)
