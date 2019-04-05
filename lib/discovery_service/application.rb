@@ -49,8 +49,6 @@ module DiscoveryService
       @entity_cache = DiscoveryService::Persistence::EntityCache.new
       @groups = DiscoveryService.configuration[:groups]
       @environment = DiscoveryService.configuration[:environment]
-      logger.info('Initialised with group configuration: '\
-        "#{JSON.pretty_generate(@groups)}")
       @redis = Redis::Namespace.new(:discovery_service, redis: Redis.new)
     end
 

@@ -22,14 +22,14 @@ module DiscoveryService
               logger.info("Return URL provided by '#{params[:entityID]}' was valid")
               redirect_to(return_url, params)
             else
-              logger.error("Return URL provided by '#{params[:entityID]}' was invalid, rejecting value")
+              logger.error("Return URL '#{return_url}' provided by '#{params[:entityID]}' was invalid, rejecting value")
               status 403
             end
           else
             if valid_return_url(params, return_url)
-              logger.info("Return URL provided by '#{params[:entityID]}' was valid (config disabled)")
+              logger.info("Return URL '#{return_url}' provided by '#{params[:entityID]}' was valid (config disabled)")
             else
-              logger.error("Return URL provided by '#{params[:entityID]}' was invalid, would be rejected (config disabled)")
+              logger.error("Return URL '#{return_url}' provided by '#{params[:entityID]}' was invalid, would be rejected (config disabled)")
             end
             redirect_to(return_url, params)
           end
