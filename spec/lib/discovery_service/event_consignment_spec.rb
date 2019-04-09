@@ -181,6 +181,7 @@ RSpec.describe DiscoveryService::EventConsignment do
           called = false
           expect(client).to receive(:send_message).with(any_args).twice do
             raise('Nope') if called
+
             called = true
           end
         end

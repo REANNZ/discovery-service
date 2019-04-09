@@ -19,6 +19,7 @@ module DiscoveryService
     include DiscoveryService::EmbeddedWAYF
 
     attr_reader :redis
+    attr_reader :logger
 
     set :assets_precompile,
         %w[application.js application.css]
@@ -48,8 +49,6 @@ module DiscoveryService
       @entity_cache = DiscoveryService::Persistence::EntityCache.new
       @groups = DiscoveryService.configuration[:groups]
       @environment = DiscoveryService.configuration[:environment]
-      @logger.info('Initialised with group configuration: '\
-        "#{JSON.pretty_generate(@groups)}")
       @redis = Redis::Namespace.new(:discovery_service, redis: Redis.new)
     end
 
@@ -80,8 +79,10 @@ module DiscoveryService
       idp_selections(request).each do |group, entity_id|
         next unless valid_group_name?(group) && group_configured?(group) &&
                     uri?(entity_id) && @entity_cache.entities_exist?(group)
+
         entities = @entity_cache.entities_as_hash(group)
         next unless entities.key?(entity_id)
+
         entity = entities[entity_id]
         entity[:entity_id] = entity_id
         entry = build_entry(entity, 'en', :idp)
@@ -93,6 +94,11 @@ module DiscoveryService
     post '/discovery' do
       delete_idp_selection(response)
       slim :selected_idps
+    end
+
+    def entity_exists?(group, entity_id)
+      entities = @entity_cache.entities_as_hash(group)
+      entities&.key?(entity_id)
     end
 
     before %r{\A/discovery/([^/]+)(/.+)?\z} do |group, _|
@@ -108,11 +114,6 @@ module DiscoveryService
       redirect to(path)
     end
 
-    def entity_exists?(group, entity_id)
-      entities = @entity_cache.entities_as_hash(group)
-      entities&.key?(entity_id)
-    end
-
     get '/discovery/:group/:unique_id' do |group, unique_id|
       saved_user_idp = idp_selections(request)[group]
       if saved_user_idp && !entity_exists?(group, saved_user_idp)
@@ -125,19 +126,12 @@ module DiscoveryService
         record_cookie_selection(request, params, unique_id, saved_user_idp)
         handle_response(params)
       elsif passive?(params) && params[:return]
-        redirect to(params[:return])
+        handle_response(params)
       elsif group_exists?(group)
         @entity_cache.group_page(group)
       else
         status 404
       end
-    end
-
-    get '/api/discovery/:group' do |group|
-      content_type 'application/json;charset=utf-8'
-      return 400 unless valid_group_name?(group) && group_configured?(group)
-      entities = @entity_cache.entities_as_hash(group)
-      JSON.generate(build_api_response(entities))
     end
 
     post '/discovery/:group/:unique_id' do |group, unique_id|
@@ -152,6 +146,14 @@ module DiscoveryService
 
       record_manual_selection(request, params, unique_id)
       handle_response(params)
+    end
+
+    get '/api/discovery/:group' do |group|
+      content_type 'application/json;charset=utf-8'
+      return 400 unless valid_group_name?(group) && group_configured?(group)
+
+      entities = @entity_cache.entities_as_hash(group)
+      JSON.generate(build_api_response(entities))
     end
 
     get '/error/missing_idp' do

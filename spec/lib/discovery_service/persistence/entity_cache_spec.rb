@@ -189,30 +189,67 @@ RSpec.describe DiscoveryService::Persistence::EntityCache do
     end
   end
 
-  describe '#discovery_response(group, entity_id)' do
+  describe '#default_discovery_response(group, entity_id)' do
     context 'when entity does not exist' do
-      subject { instance.discovery_response(group, Faker::Internet.url) }
+      subject do
+        instance.default_discovery_response(group, Faker::Internet.url)
+      end
+
       it { is_expected.to be_nil }
     end
 
     context 'when entity without discovery response exists' do
       let(:entity) do
-        build_entity_data.except(:discovery_response)
+        build_sp_data.except(:discovery_response)
       end
       let(:entities) { to_hash([entity]).to_json }
       before { redis.set("entities:#{group}", entities) }
-      subject { instance.discovery_response(group, entity[:entity_id]) }
+      subject { instance.default_discovery_response(group, entity[:entity_id]) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when entity with discovery response exists' do
+      let(:entity) { build_sp_data }
+      let(:entities) { to_hash([entity]).to_json }
+      before { redis.set("entities:#{group}", entities) }
+      subject { instance.default_discovery_response(group, entity[:entity_id]) }
+
+      it 'should eq discovery response' do
+        expect(subject).to eq(entity[:discovery_response])
+      end
+    end
+  end
+
+  describe '#all_discovery_response(group, entity_id)' do
+    context 'when entity does not exist' do
+      subject do
+        instance.all_discovery_response(group, Faker::Internet.url)
+      end
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when entity without discovery response exists' do
+      let(:entity) do
+        build_sp_data.except(:discovery_response,
+                             :all_discovery_response_endpoints)
+      end
+      let(:entities) { to_hash([entity]).to_json }
+
+      before { redis.set("entities:#{group}", entities) }
+      subject { instance.all_discovery_response(group, entity[:entity_id]) }
 
       it { is_expected.to be_nil }
     end
     context 'when entity with discovery response exists' do
-      let(:entity) { build_entity_data }
+      let(:entity) { build_sp_data }
       let(:entities) { to_hash([entity]).to_json }
       before { redis.set("entities:#{group}", entities) }
-      subject { instance.discovery_response(group, entity[:entity_id]) }
+      subject { instance.all_discovery_response(group, entity[:entity_id]) }
 
       it 'should eq discovery response' do
-        expect(subject).to eq(entity[:discovery_response])
+        expect(subject).to eq(entity[:all_discovery_response_endpoints])
       end
     end
   end

@@ -44,7 +44,7 @@ module DiscoveryService
     # rubocop:enable Layout/IndentHeredoc
 
     EMBEDDED_WAYF_LOGIC =
-      File.read(File.expand_path('../embedded-wayf.js', __FILE__))
+      File.read(File.expand_path('embedded-wayf.js', __dir__))
     private_constant :EMBEDDED_WAYF_LOGIC
   end
 end

@@ -12,7 +12,7 @@ gem 'redis'
 gem 'redis-namespace'
 gem 'slim'
 
-gem 'activesupport'
+gem 'activesupport', '~> 5.1.0'
 gem 'hashdiff'
 gem 'json-jwt'
 gem 'rack', '~> 1.0'
@@ -40,6 +40,7 @@ group :development, :test do
   gem 'webmock'
 
   gem 'capybara', require: false
+  gem 'nokogiri', '1.8.2'
   gem 'phantomjs', require: 'phantomjs/poltergeist'
   gem 'poltergeist', require: false
 

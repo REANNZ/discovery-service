@@ -32,8 +32,8 @@ module DiscoveryService
           latitude = geolocation[:longitude]
           longitude = geolocation[:latitude]
           escaped_geolocation = {}
-          escaped_geolocation[:longitude] = CGI.escapeHTML(latitude)
-          escaped_geolocation[:latitude] = CGI.escapeHTML(longitude)
+          escaped_geolocation[:longitude] = CGI.escapeHTML(latitude.to_s)
+          escaped_geolocation[:latitude] = CGI.escapeHTML(longitude.to_s)
           escaped_geolocation
         end
       end
@@ -57,6 +57,7 @@ module DiscoveryService
         privacy_statement_url = value(:privacy_statement_urls, :url,
                                       entity, lang)
         return unless privacy_statement_url
+
         entry[:privacy_statement_url] = privacy_statement_url
       end
 
@@ -67,6 +68,7 @@ module DiscoveryService
 
       def value(field, key, entity, lang)
         return nil unless entity[field]
+
         values = entity[field].select { |value| value[:lang] == lang }
         value = values.first
         CGI.escapeHTML(value[key]) if value&.key?(key)
