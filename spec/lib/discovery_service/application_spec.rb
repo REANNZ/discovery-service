@@ -1008,8 +1008,9 @@ RSpec.describe DiscoveryService::Application do
 
         context 'with enforcing return url configured' do
           let(:config) do
-            { restrict_return_url: true, groups: {}, environment:
-                { name: environment_name, status_url: environment_status_url } }
+            { groups: {}, environment:
+              { name: environment_name, status_url: environment_status_url,
+                restrict_return_url: true } }
           end
 
           context 'with valid return url provided' do

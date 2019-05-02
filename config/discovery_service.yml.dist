@@ -21,6 +21,7 @@
 :environment:
   :name: 'Test Environment'
   :status_url: 'http://status.test.aaf.edu.au'
+  :restrict_return_url: true
 
 :sqs:
   :fake: true

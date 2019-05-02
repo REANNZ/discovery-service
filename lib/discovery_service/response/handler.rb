@@ -17,7 +17,7 @@ module DiscoveryService
         # due to data already existing or being added to metadata and
         # this code will be simplified.
         if return_url&.present?
-          if DiscoveryService.configuration[:restrict_return_url]
+          if DiscoveryService.configuration[:environment][:restrict_return_url]
             if valid_return_url(params, return_url)
               logger.info("Return URL provided by '#{params[:entityID]}' was valid")
               redirect_to(return_url, params)
