@@ -23,7 +23,7 @@ module DiscoveryService
               redirect_to(return_url, params)
             else
               logger.error("Return URL '#{return_url}' provided by '#{params[:entityID]}' was invalid, rejecting value")
-              status 403
+              redirect to('/error/invalid_return_url')
             end
           else
             if valid_return_url(params, return_url)
