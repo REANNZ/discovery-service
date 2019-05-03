@@ -1,9 +1,13 @@
 h2 Invalid SAML configuration
 p We received a request that is not valid for the service being accessed.
 p 
-  'The cause of this fault is a missing or non matching
+  'The cause of this fault is an invalid
   strong> DiscoveryResponse
-  |record in the associated SAML metadata entry.
+  |record in the SAML metadata entry associated with the service being accesed.
+p 
+  'This value was provided as the parameter
+  strong> return_url
+  |by your browser during this request.
 
 == Slim::Template.new('views/_support.slim').render
 br /
