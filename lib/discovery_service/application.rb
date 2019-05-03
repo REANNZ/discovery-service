@@ -160,8 +160,16 @@ module DiscoveryService
       slim :missing_idp
     end
 
+    get '/error/invalid_return_url' do
+      slim :invalid_return_url
+    end
+
     error 400 do
       slim :bad_request
+    end
+
+    error 403 do
+      slim :forbidden
     end
 
     error 404 do
