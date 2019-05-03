@@ -164,6 +164,10 @@ module DiscoveryService
       slim :bad_request
     end
 
+    error 403 do
+      slim :forbidden
+    end
+
     error 404 do
       slim :not_found
     end
