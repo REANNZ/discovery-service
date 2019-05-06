@@ -1030,8 +1030,11 @@ RSpec.describe DiscoveryService::Application do
                 '&return=https://attacker.com'
             end
 
-            it 'returns http status code 403' do
-              expect(last_response.status).to eq(403)
+            it 'shows error page for invalid return_url' do
+              expect(last_response.status).to eq(302)
+              expect_matching_response(
+                'http://example.org/error/invalid_return_url', {}
+              )
             end
           end
         end
