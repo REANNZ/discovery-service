@@ -310,6 +310,13 @@ function init() {
     changeTab($(this));
   });
 
+  // Only use our bound enter key, not the default action
+  $(".idp_selection_form").bind("keypress", function(e) {
+    if (e.keyCode == 13) {
+      return false;
+    }
+  });
+
   // Force scrollbars to always be present when content is larger than
   // container browsers mostly hide scrollbars by default now which is not
   // user friendly in our particular case.
