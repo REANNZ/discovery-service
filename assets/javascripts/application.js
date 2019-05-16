@@ -199,6 +199,8 @@ function searchActiveIdPList(input, key) {
       target.first()[0].scrollIntoView({
         block: "nearest"
       });
+    } else {
+      disableContinueButton();
     }
   }
 }
@@ -224,7 +226,11 @@ function enableContinueButton() {
     }
   });
 
-  $(".continue_button").css("display", "inline-block");
+  $(".continue_button:visible").attr("disabled", false);
+}
+
+function disableContinueButton() {
+  $(".continue_button:visible").attr("disabled", true);
 }
 
 /// Keyboard shortcuts
