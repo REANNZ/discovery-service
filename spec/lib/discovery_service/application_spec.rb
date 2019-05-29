@@ -1033,11 +1033,10 @@ RSpec.describe DiscoveryService::Application do
           end
         end
 
-        context 'with enforcing return url configured' do
+        context 'ensure return url param is enforced per spec' do
           let(:config) do
             { groups: {}, environment:
-              { name: environment_name, status_url: environment_status_url,
-                restrict_return_url: true } }
+              { name: environment_name, status_url: environment_status_url } }
           end
 
           context 'with valid return url provided' do
