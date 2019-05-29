@@ -23,6 +23,15 @@ RSpec.shared_context 'build_entity_data' do
     entity_data
   end
 
+  def build_sp_data_no_return(tags = nil, lang = nil)
+    entity_data = build_entity_data(tags, lang)
+    entity_data[:information_urls] = [{ url: Faker::Internet.url, lang: lang }]
+    entity_data[:descriptions] = [{ value: Faker::Lorem.sentence, lang: lang }]
+    entity_data[:privacy_statement_urls] =
+      [{ url: Faker::Internet.url, lang: lang }]
+    entity_data
+  end
+
   def to_hash(entities)
     Hash[entities.map { |e| [e[:entity_id], e.except(:entity_id)] }]
   end

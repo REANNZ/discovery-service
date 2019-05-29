@@ -4,12 +4,18 @@ module DiscoveryService
   module Response
     # Module to handle user redirect / response
     module Handler
-      # rubocop:disable Metrics/LineLength, Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
+      # rubocop:disable Metrics/LineLength, Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
       def handle_response(params)
         # Flow per sstc-saml-idp-discovery 2.4/5
         # Attempt to return to metadata valid return parameter else fallback
         # to default discovery service url specified for this SP
         return_url = params[:return]
+
+        unless known_sp?(params)
+          logger.info(''"Unable to locate the entityID
+            '#{params[:entityID]}', halting response"'')
+          return redirect to('/error/invalid_entity_id')
+        end
 
         # This is more verbose than necessary so we can log what is going on
         # in detail with config disabled. Ideally over some period of time
@@ -49,9 +55,13 @@ module DiscoveryService
           status 404
         end
       end
-      # rubocop:enable
+      # rubocop:enable Metrics/LineLength, Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
       private
+
+      def known_sp?(params)
+        @entity_cache.entity_exists?(params[:group], params[:entityID])
+      end
 
       def valid_return_url(params, return_url)
         # Per sstc-saml-idp-discovery the query path is not relevant
