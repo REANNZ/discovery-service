@@ -9,7 +9,7 @@ phases:
 
       - redis-server & disown -h
 
-      - "[ -e .ruby-version ] && rbenv install $(cat .ruby-version) --skip-existing"
+      - "[ -e .ruby-version ] && /root/.rbenv/bin/rbenv install $(cat .ruby-version) --skip-existing"
 
       - gem install bundler
       - bundle install
