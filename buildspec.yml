@@ -11,13 +11,13 @@ phases:
 
       - "[ -e .ruby-version ] && /root/.rbenv/bin/rbenv install $(cat .ruby-version) --skip-existing"
 
-      - gem install bundler
-      - bundle install
+      - /root/.rbenv/shims/gem install bundler
+      - /root/.rbenv/shims/bundle install
 
       - cp config/discovery_service.yml.dist config/discovery_service.yml
   build:
     commands:
-      - RAILS_ENV=test bundle exec rake
+      - RAILS_ENV=test /root/.rbenv/shims/bundle exec rake
 cache:
   paths:
     - "/root/.rbenv/**/*"
