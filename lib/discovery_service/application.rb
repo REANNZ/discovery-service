@@ -164,6 +164,10 @@ module DiscoveryService
       slim :invalid_return_url
     end
 
+    get '/error/invalid_entity_id' do
+      slim :invalid_entity_id
+    end
+
     error 400 do
       slim :bad_request
     end
