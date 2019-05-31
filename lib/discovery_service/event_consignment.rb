@@ -35,12 +35,10 @@ module DiscoveryService
 
     def each_event_slice
       queued_events.each_slice(10) do |events|
-        begin
-          yield events
-        rescue
-          requeue_events
-          raise
-        end
+        yield events
+      rescue StandardError
+        requeue_events
+        raise
       end
     end
 
