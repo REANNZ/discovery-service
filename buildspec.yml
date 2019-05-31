@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - source /root/.bashrc
+
+      - redis-server & disown -h
+
+      - "[ -e .ruby-version ] && rbenv install $(cat .ruby-version) --skip-existing"
+      - /root/.rbenv/shims/gem install bundler
+      - /root/.rbenv/shims/bundle install
+
+      - mkdir log
+      - cp config/discovery_service.yml.dist config/discovery_service.yml
+  build:
+    commands:
+      - RAILS_ENV=test bundle exec rake
+cache:
+  paths:
+    - "/root/.rbenv/**/*"
+    - "/var/cache/yum/x86_64/7/**/*"
