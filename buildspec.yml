@@ -3,14 +3,11 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo 'export LANG=en_US.UTF-8' >> ~/.bashrc
-      - echo 'export LANGUAGE=en_US.UTF-8' >> ~/.bashrc
-      - echo 'export LC_ALL=en_US.UTF-8' >> ~/.bashrc
+      - source /root/.bashrc
 
       - redis-server & disown -h
 
-      - "[ -e .ruby-version ] && /root/.rbenv/bin/rbenv install $(cat .ruby-version) --skip-existing"
-
+      - "[ -e .ruby-version ] && rbenv install $(cat .ruby-version) --skip-existing"
       - /root/.rbenv/shims/gem install bundler
       - /root/.rbenv/shims/bundle install
 
@@ -18,10 +15,8 @@ phases:
       - cp config/discovery_service.yml.dist config/discovery_service.yml
   build:
     commands:
-      - RAILS_ENV=test /root/.rbenv/shims/bundle exec rake
+      - RAILS_ENV=test bundle exec rake
 cache:
   paths:
     - "/root/.rbenv/**/*"
     - "/var/cache/yum/x86_64/7/**/*"
-    - "tmp/**/*"
-    - "schema/**/*"
