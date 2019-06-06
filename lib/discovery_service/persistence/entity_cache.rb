@@ -54,6 +54,13 @@ module DiscoveryService
         HashDiff.diff(stored_entities, to_hash(entities))
       end
 
+      def entity_exists?(group, entity_id)
+        return false unless entities_exist?(group)
+
+        entities = build_entities(entities(group))
+        entities.key?(entity_id)
+      end
+
       # Indicates the 'default' discovery profile URL for the
       # supplied entity_id
       def default_discovery_response(group, entity_id)

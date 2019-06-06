@@ -91,6 +91,7 @@ RSpec.describe DiscoveryService::Application do
 
   describe 'GET /discovery' do
     let(:path) { '/discovery' }
+    let(:existing_entity) { build_idp_data(['idp', group_name], 'en') }
     let(:group_name) { "#{Faker::Lorem.word}_#{Faker::Number.number(2)}-" }
 
     def run
@@ -129,7 +130,7 @@ RSpec.describe DiscoveryService::Application do
       end
 
       context 'and the idp does not exist anymore' do
-        let(:existing_entity) { build_idp_data(['idp', group_name], 'en') }
+        let(:entity_exists) { build_idp_data(['idp', group_name], 'en') }
         let(:entity_id) { Faker::Internet.url }
         it 'shows that there are no organisations selected' do
           configure_group
@@ -144,8 +145,6 @@ RSpec.describe DiscoveryService::Application do
       end
 
       context 'and the idp and group do exist' do
-        let(:existing_entity) { build_idp_data(['idp', group_name], 'en') }
-
         before do
           configure_group
           redis.set("entities:#{group_name}",
@@ -625,8 +624,12 @@ RSpec.describe DiscoveryService::Application do
 
       context 'with passive and return parameters' do
         let(:selected_idp) { build_idp_data(['idp', group_name]) }
-        let(:entity_id) { Faker::Internet.url }
-        let(:sp_return_url) { Faker::Internet.url }
+        let(:existing_sp) { build_sp_data(['sp', group_name]) }
+        let(:entity_id) { existing_sp[:entity_id] }
+        let(:requesting_sp) { existing_sp[:entity_id] }
+        let(:sp_return_url) do
+          existing_sp[:all_discovery_response_endpoints].first
+        end
         let(:selected_idp_entity_id) { selected_idp[:entity_id] }
         let(:passive) { 'true' }
 
@@ -635,9 +638,14 @@ RSpec.describe DiscoveryService::Application do
           "&isPassive=#{passive}&return=#{sp_return_url}"
         end
 
+        before do
+          configure_group
+          redis.set("entities:#{group_name}",
+                    to_hash([existing_sp, selected_idp]).to_json)
+        end
+
         context 'without cookies' do
           before do
-            configure_group
             run
           end
 
@@ -652,8 +660,6 @@ RSpec.describe DiscoveryService::Application do
 
         context 'with cookies' do
           before do
-            configure_group
-            redis.set("entities:#{group_name}", to_hash([selected_idp]).to_json)
             rack_mock_session.cookie_jar['selected_organisations'] =
               JSON.generate(group_name => selected_idp_entity_id)
             run
@@ -673,8 +679,8 @@ RSpec.describe DiscoveryService::Application do
 
       context 'with passive parameter but no return' do
         let(:selected_idp) { build_idp_data(['idp', group_name]) }
-        let(:entity_id) { Faker::Internet.url }
-        let(:sp_return_url) { Faker::Internet.url }
+        let(:existing_sp) { build_sp_data_no_return(['sp', group_name]) }
+        let(:entity_id) { existing_sp[:entity_id] }
         let(:selected_idp_entity_id) { selected_idp[:entity_id] }
         let(:passive) { 'true' }
 
@@ -683,9 +689,14 @@ RSpec.describe DiscoveryService::Application do
           "&isPassive=#{passive}"
         end
 
+        before do
+          configure_group
+          redis.set("entities:#{group_name}",
+                    to_hash([existing_sp]).to_json)
+        end
+
         context 'without cookies' do
           before do
-            configure_group
             run
           end
 
@@ -696,8 +707,6 @@ RSpec.describe DiscoveryService::Application do
 
         context 'with cookies' do
           before do
-            configure_group
-            redis.set("entities:#{group_name}", to_hash([selected_idp]).to_json)
             rack_mock_session.cookie_jar['selected_organisations'] =
               JSON.generate(group_name => selected_idp_entity_id)
             run
@@ -709,14 +718,10 @@ RSpec.describe DiscoveryService::Application do
         end
 
         context 'with cookies and discovery response stored' do
-          let(:existing_entity) { build_sp_data(['sp', group_name]) }
-          let(:entity_id) { existing_entity[:entity_id] }
+          let(:existing_sp) { build_sp_data(['sp', group_name]) }
           before do
-            configure_group
-            redis.set("entities:#{group_name}",
-                      to_hash([existing_entity]).to_json)
             rack_mock_session.cookie_jar['selected_organisations'] =
-              JSON.generate(group_name => existing_entity[:entity_id])
+              JSON.generate(group_name => existing_sp[:entity_id])
             run
           end
 
@@ -725,8 +730,8 @@ RSpec.describe DiscoveryService::Application do
           end
 
           it 'redirects back to sp using discovery response value' do
-            expect_matching_response(existing_entity[:discovery_response],
-                                     'entityID' => existing_entity[:entity_id])
+            expect_matching_response(existing_sp[:discovery_response],
+                                     'entityID' => existing_sp[:entity_id])
           end
         end
       end
@@ -948,12 +953,34 @@ RSpec.describe DiscoveryService::Application do
         end
       end
 
+      context 'with unknown entity_id' do
+        let(:path) { "#{base_path}?entityID=#{Faker::Internet.url}" }
+
+        before do
+          redis.set("entities:#{group_name}",
+                    to_hash([existing_sp, existing_idp]).to_json)
+          run
+        end
+
+        it 'returns http status code 302' do
+          expect(last_response.status).to eq(302)
+        end
+
+        it 'shows error page for unknown entity' do
+          expect_matching_response(
+            'http://example.org/error/invalid_entity_id', {}
+          )
+        end
+      end
+
       context 'with an entity id parameter, no return parameter and no'\
               ' discovery response stored' do
+        let(:existing_sp) { build_sp_data_no_return(['sp', group_name]) }
         let(:path) { "#{base_path}?entityID=#{requesting_sp}" }
 
         before do
-          redis.set("entities:#{group_name}", to_hash([existing_idp]).to_json)
+          redis.set("entities:#{group_name}",
+                    to_hash([existing_sp, existing_idp]).to_json)
           run
         end
 
@@ -1006,11 +1033,10 @@ RSpec.describe DiscoveryService::Application do
           end
         end
 
-        context 'with enforcing return url configured' do
+        context 'ensure return url param is enforced per spec' do
           let(:config) do
             { groups: {}, environment:
-              { name: environment_name, status_url: environment_status_url,
-                restrict_return_url: true } }
+              { name: environment_name, status_url: environment_status_url } }
           end
 
           context 'with valid return url provided' do
