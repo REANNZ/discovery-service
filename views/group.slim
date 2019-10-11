@@ -38,7 +38,7 @@ div[id="sp"]
             table[class="idp_selection_table"]
               tbody
                 - @idps.select{|idp| idp[:tags].include?(tag_group[:tag])}.each do |idp|
-                  tr[class="idp" data-idp-name="#{idp[:name].downcase.gsub(/\s+/, "")}"]
+                  tr[class="idp" data-idp-name="#{idp[:name].downcase.gsub(/[\W\d\s]/, "")}"]
                     td
                       == idp[:name]
                     td
