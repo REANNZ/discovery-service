@@ -184,7 +184,7 @@ function searchActiveIdPList(input, key) {
     table_rows.removeClass("active");
 
     var val = $.trim(input.val())
-      .replace(/[\W+_]/gi, "")
+      .replace(/[\W\d\s]/gi, "")
       .toLowerCase();
     if (val == "") {
       table_rows.attr("hidden", false);
