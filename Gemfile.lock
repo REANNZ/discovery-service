@@ -115,7 +115,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (3.0.3)
-    rack (1.6.11)
+    rack (1.6.12)
     rack-protection (1.5.5)
       rack
     rack-test (1.1.0)
@@ -247,7 +247,7 @@ DEPENDENCIES
   phantomjs
   poltergeist
   pry
-  rack (~> 1.0)
+  rack (~> 1.6)
   rack-test
   rails-assets-jquery!
   rails-assets-jquery.scrollbar!
