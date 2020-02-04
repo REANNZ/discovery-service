@@ -106,6 +106,12 @@ module DiscoveryService
     end
 
     get '/discovery/:group' do |group|
+      unless known_sp?(params)
+        logger.info('Unable to locate the entityID '\
+          "'#{params[:entityID]}', halting request")
+        return redirect to('/error/invalid_entity_id')
+      end
+
       id = record_request(request, params)
       @redis.set("id:#{id}", '1', ex: 3600)
       path = "/discovery/#{group}/#{id}"
