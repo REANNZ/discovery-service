@@ -57,5 +57,9 @@ group :development, :test do
   gem 'guard-unicorn', require: false
   gem 'terminal-notifier-guard', require: false
 
+  gem 'rubocop-faker', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
+
   gem 'aaf-gumboot'
 end
