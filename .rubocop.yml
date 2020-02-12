@@ -1,5 +1,7 @@
-inherit_gem:
-  aaf-gumboot: aaf-rubocop.yml
+require: rubocop-rails
+
+inherit_from:
+  - https://raw.githubusercontent.com/ausaccessfed/aaf-gumboot/develop/aaf-rubocop.yml
 
 Rails:
   Enabled: false
