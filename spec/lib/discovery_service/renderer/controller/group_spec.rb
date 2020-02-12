@@ -9,15 +9,17 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
     end
 
     let(:tag_group_1) do
-      { name: Faker::Address.country, tag: Faker::Lorem.characters(10) }
+      { name: Faker::Address.country,
+        tag: Faker::Lorem.characters(number: 10) }
     end
 
     let(:tag_group_2) do
-      { name: Faker::Address.country, tag: Faker::Lorem.characters(10) }
+      { name: Faker::Address.country, tag:
+          Faker::Lorem.characters(number: 10) }
     end
 
     let(:tag_groups) { [tag_group_1, tag_group_2] }
-    let(:lang) { Faker::Lorem.characters(2) }
+    let(:lang) { Faker::Lorem.characters(number: 2) }
 
     def run
       klass.new.generate_group_model(entities, lang, tag_groups)
@@ -245,7 +247,7 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
     end
 
     context 'with multiple idps of different languages' do
-      let(:lang) { Faker::Lorem.characters(4) }
+      let(:lang) { Faker::Lorem.characters(number: 4) }
       let(:idp) { build_idp_data(['idp']) }
       let(:idp_with_matching_lang) { build_idp_data(['idp'], lang, 'ZZZ Uni') }
 

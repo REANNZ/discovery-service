@@ -92,7 +92,9 @@ RSpec.describe DiscoveryService::Application do
   describe 'GET /discovery' do
     let(:path) { '/discovery' }
     let(:existing_entity) { build_idp_data(['idp', group_name], 'en') }
-    let(:group_name) { "#{Faker::Lorem.word}_#{Faker::Number.number(2)}-" }
+    let(:group_name) do
+      "#{Faker::Lorem.word}_#{Faker::Number.number(digits: 2)}-"
+    end
 
     def run
       get path
@@ -196,7 +198,7 @@ RSpec.describe DiscoveryService::Application do
 
       context 'and multiple idp selections exist' do
         let(:other_group_name) do
-          "#{Faker::Lorem.word}_#{Faker::Number.number(3)}-"
+          "#{Faker::Lorem.word}_#{Faker::Number.number(digits: 3)}-"
         end
 
         let(:existing_entity) { build_idp_data(['idp', group_name], 'en') }
@@ -263,7 +265,9 @@ RSpec.describe DiscoveryService::Application do
   end
 
   describe 'POST /discovery' do
-    let(:group_name) { "#{Faker::Lorem.word}_#{Faker::Number.number(2)}-" }
+    let(:group_name) do
+      "#{Faker::Lorem.word}_#{Faker::Number.number(digits: 2)}-"
+    end
     let(:originally_selected_idp) { Faker::Internet.url }
 
     let(:reset_cookie) do
@@ -336,7 +340,7 @@ RSpec.describe DiscoveryService::Application do
       end
 
       let(:other_group_name) do
-        "#{Faker::Lorem.word}_#{Faker::Number.number(2)}-"
+        "#{Faker::Lorem.word}_#{Faker::Number.number(digits: 2)}-"
       end
 
       let(:other_selected_idp) { Faker::Internet.url }
@@ -432,7 +436,7 @@ RSpec.describe DiscoveryService::Application do
 
   describe 'GET /discovery/:group/:unique_id' do
     let(:entity_id) { Faker::Internet.url }
-    let(:unique_id) { Faker::Lorem.words(2).join('-') }
+    let(:unique_id) { Faker::Lorem.words(number: 2).join('-') }
     let(:path_for_group) do
       "/discovery/#{group_name}/#{unique_id}?entityID=#{entity_id}"
     end
@@ -451,7 +455,9 @@ RSpec.describe DiscoveryService::Application do
 
     context 'with a url-safe base64 alphabet group name' do
       let(:page_content) { 'Page content here' }
-      let(:group_name) { "#{Faker::Lorem.word}_#{Faker::Number.number(2)}-" }
+      let(:group_name) do
+        "#{Faker::Lorem.word}_#{Faker::Number.number(digits: 2)}-"
+      end
 
       context 'when group exists in redis and config' do
         let(:config) { { groups: {} } }
@@ -544,7 +550,7 @@ RSpec.describe DiscoveryService::Application do
         context 'with cookie set for multiple groups' do
           let(:other_idp) { Faker::Internet.url }
           let(:other_group) do
-            "#{Faker::Lorem.word}_#{Faker::Number.number(2)}-"
+            "#{Faker::Lorem.word}_#{Faker::Number.number(digits: 2)}-"
           end
 
           let(:multiple_idp_selections) do
@@ -739,7 +745,9 @@ RSpec.describe DiscoveryService::Application do
   end
 
   describe 'GET /api/discovery/:group' do
-    let(:group_name) { "#{Faker::Lorem.word}_#{Faker::Number.number(2)}-" }
+    let(:group_name) do
+      "#{Faker::Lorem.word}_#{Faker::Number.number(digits: 2)}-"
+    end
 
     def expected_idp(idp)
       { entity_id: idp[:entity_id],
@@ -1123,7 +1131,7 @@ RSpec.describe DiscoveryService::Application do
         context 'with a idp selection already saved for another group' do
           let(:other_idp) { Faker::Internet.url }
           let(:other_group) do
-            "#{Faker::Lorem.word}_#{Faker::Number.number(2)}-"
+            "#{Faker::Lorem.word}_#{Faker::Number.number(digits: 2)}-"
           end
 
           let(:other_selected_organisation_hash) do

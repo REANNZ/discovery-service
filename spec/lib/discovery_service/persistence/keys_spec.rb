@@ -2,7 +2,9 @@
 
 RSpec.describe DiscoveryService::Persistence::Keys do
   let(:klass) { Class.new { include DiscoveryService::Persistence::Keys } }
-  let(:group_name) { "#{Faker::Lorem.word}_#{Faker::Number.number(2)}-" }
+  let(:group_name) do
+    "#{Faker::Lorem.word}_#{Faker::Number.number(digits: 2)}-"
+  end
 
   describe '#group_page_key(group)' do
     subject { klass.new.group_page_key(group_name) }
