@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'sinatra/base'
-require 'sinatra/cookies'
 require 'sinatra/asset_pipeline'
 require 'json'
 require 'uri'
