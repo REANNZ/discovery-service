@@ -24,7 +24,6 @@ GEM
       aws-sdk-core (= 2.11.443)
     aws-sigv4 (1.1.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
-    backports (3.16.0)
     bindata (2.4.4)
     capybara (3.31.0)
       addressable
@@ -96,7 +95,6 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.0)
-    multi_json (1.14.1)
     nenv (0.3.0)
     nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
@@ -186,13 +184,6 @@ GEM
       sinatra (~> 1.4)
       sprockets (~> 3.6)
       sprockets-helpers (~> 1.1)
-    sinatra-contrib (1.4.7)
-      backports (>= 2.0)
-      multi_json
-      rack-protection
-      rack-test
-      sinatra (~> 1.4.0)
-      tilt (>= 1.3, < 3)
     slim (4.0.1)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
@@ -218,7 +209,7 @@ GEM
     unicorn (5.5.3)
       kgio (~> 2.6)
       raindrops (~> 0.7)
-    webmock (3.8.1)
+    webmock (3.8.2)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -267,7 +258,6 @@ DEPENDENCIES
   simplecov
   sinatra
   sinatra-asset-pipeline
-  sinatra-contrib
   slim
   sprockets-helpers
   terminal-notifier-guard
