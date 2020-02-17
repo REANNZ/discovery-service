@@ -25,7 +25,7 @@ RSpec.describe DiscoveryService::EventConsignment do
     end
 
     let(:queue_url) do
-      Faker::Internet.url(sqs_hostname, "/queue/#{queue_name}")
+      Faker::Internet.url(host: sqs_hostname, path: "/queue/#{queue_name}")
     end
 
     before do

@@ -8,3 +8,4 @@ config/event_encryption_key.pem
 .sass-cache
 .idea
 dump.rdb
+.rubocop-https---raw-githubusercontent-com-ausaccessfed-aaf-gumboot-develop-aaf-rubocop-yml
