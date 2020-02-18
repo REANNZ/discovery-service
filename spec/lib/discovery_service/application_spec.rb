@@ -390,11 +390,14 @@ RSpec.describe DiscoveryService::Application do
       end
     end
 
-    context 'with a configured group' do
+    context 'with a configured group and valid SP' do
       let(:id) { SecureRandom.urlsafe_base64 }
+      let(:existing_sp) { build_sp_data(['sp', group_name]) }
+      let(:entity_id) { existing_sp[:entity_id] }
 
       before do
         configure_group
+        redis.set("entities:#{group_name}", to_hash([existing_sp]).to_json)
         expect(SecureRandom).to receive(:urlsafe_base64).and_return(id)
       end
 
