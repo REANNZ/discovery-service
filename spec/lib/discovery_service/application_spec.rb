@@ -425,6 +425,43 @@ RSpec.describe DiscoveryService::Application do
       end
     end
 
+    context 'with a configured group and valid SP and valid return url' do
+      let(:id) { SecureRandom.urlsafe_base64 }
+      let(:existing_sp) { build_sp_data(['sp', group_name]) }
+      let(:entity_id) { existing_sp[:entity_id] }
+      let(:return_url) { existing_sp[:discovery_response] }
+      let(:path_for_group) { "/discovery/#{group_name}?entityID=#{entity_id}&return=#{return_url}" }
+
+      before do
+        configure_group
+        redis.set("entities:#{group_name}", to_hash([existing_sp]).to_json)
+        expect(SecureRandom).to receive(:urlsafe_base64).and_return(id)
+      end
+
+      it 'redirects to a unique url with the query string' do
+        run
+        expect(last_response.status).to eq(302)
+        uri = URI.parse(last_response.location)
+        expect(uri.path).to match(%r{/discovery/#{group_name}/[a-zA-Z0-9_-]+})
+        expect(CGI.unescape(uri.query)).to eq("entityID=#{entity_id}&return=#{return_url}")
+      end
+
+      it 'stores the id in redis' do
+        Timecop.freeze do
+          run
+          expect(redis.get("id:#{id}").to_s).to eq('1')
+          expect(redis.ttl("id:#{id}")).to eq(3600)
+        end
+      end
+
+      it 'writes an audit log entry' do
+        expect { run }.to change { redis.llen('audit') }.by(1)
+        json = redis.lindex('audit', 0)
+        data = JSON.parse(json, symbolize_names: true)
+        expect(data[:unique_id]).to eq(id)
+      end
+    end
+
     context 'with a configured group and unknown SP' do
       let(:id) { SecureRandom.urlsafe_base64 }
 
