@@ -115,7 +115,7 @@ module DiscoveryService
       if params[:return]&.present? && !valid_return_url(params)
         logger.error("Return URL '#{params[:return]}' provided for "\
                      "'#{params[:entityID]}' was invalid, rejecting value")
-        redirect to('/error/invalid_return_url')
+        return redirect to('/error/invalid_return_url')
       end
 
       id = record_request(request, params)
