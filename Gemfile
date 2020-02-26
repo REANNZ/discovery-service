@@ -15,8 +15,7 @@ gem 'slim'
 gem 'activesupport', '~> 5.1.0'
 gem 'hashdiff'
 gem 'json-jwt'
-gem 'rack', '~> 1.0'
-gem 'sinatra-contrib'
+gem 'rack', '~> 1.6'
 
 gem 'sinatra-asset-pipeline'
 gem 'sprockets-helpers'
@@ -56,6 +55,10 @@ group :development, :test do
   gem 'guard-rubocop', require: false
   gem 'guard-unicorn', require: false
   gem 'terminal-notifier-guard', require: false
+
+  gem 'rubocop-faker', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
 
   gem 'aaf-gumboot'
 end

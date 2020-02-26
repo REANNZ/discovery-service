@@ -9,8 +9,8 @@ module DiscoveryService
         # Attempt to return to metadata valid return parameter else fallback
         # to default discovery service url specified for this SP
         unless known_sp?(params)
-          logger.info(''"Unable to locate the entityID
-            '#{params[:entityID]}', halting response"'')
+          logger.info('Unable to locate the entityID '\
+            "'#{params[:entityID]}', halting response")
           return redirect to('/error/invalid_entity_id')
         end
 
@@ -30,19 +30,19 @@ module DiscoveryService
       def handle_return_url(params)
         return_url = params[:return]
         if valid_return_url(params)
-          logger.info(''"Return URL provided for
-                      '#{params[:entityID]}' was valid"'')
+          logger.info('Return URL provided for '\
+                      "'#{params[:entityID]}' was valid")
           redirect_to(return_url, params)
         else
-          logger.error(''"Return URL '#{return_url}' provided for
-                       '#{params[:entityID]}' was invalid, rejecting value"'')
+          logger.error("Return URL '#{return_url}' provided for "\
+                       "'#{params[:entityID]}' was invalid, rejecting value")
           redirect to('/error/invalid_return_url')
         end
       end
 
       def handle_no_return_url(params)
-        logger.info(''"Return URL not provided in
-                    query for '#{params[:entityID]}'"'')
+        logger.info('Return URL not provided in '\
+                    "query for '#{params[:entityID]}'")
         return_url = default_discovery_response(params)
         return redirect_to(return_url, params) if return_url
 

@@ -51,7 +51,7 @@ module DiscoveryService
       # pre: @redis.get(entities_key(group)) != nil
       def entities_diff(group, entities)
         stored_entities = build_entities(@redis.get(entities_key(group)))
-        HashDiff.diff(stored_entities, to_hash(entities))
+        Hashdiff.diff(stored_entities, to_hash(entities))
       end
 
       def entity_exists?(group, entity_id)

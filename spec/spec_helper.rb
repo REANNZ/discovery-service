@@ -8,7 +8,7 @@ require 'aws-sdk'
 
 ENV['RACK_ENV'] = 'test'
 Bundler.require(:test)
-Dir['./spec/support/*.rb'].each { |f| require f }
+Dir['./spec/support/*.rb'].sort.each { |f| require f }
 
 require_relative '../init.rb'
 

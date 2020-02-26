@@ -8,7 +8,7 @@ phases:
       - redis-server & disown -h
 
       - "[ -e .ruby-version ] && rbenv install $(cat .ruby-version) --skip-existing"
-      - /root/.rbenv/shims/gem install bundler
+      - /root/.rbenv/shims/gem install bundler -v 1.17.2
       - /root/.rbenv/shims/bundle install
 
       - mkdir log

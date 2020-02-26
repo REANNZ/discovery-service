@@ -37,7 +37,7 @@ RSpec.shared_context 'build_entity_data' do
   end
 
   def build_entity_data(tags = nil, specified_lang = nil, name = nil)
-    lang = specified_lang || Faker::Lorem.characters(2)
+    lang = specified_lang || Faker::Lorem.characters(number: 2)
     {
       entity_id: Faker::Internet.url,
       names: [{ value: name || Faker::University.name, lang: lang }],
