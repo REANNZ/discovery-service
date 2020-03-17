@@ -100,12 +100,24 @@ module DiscoveryService
       entities&.key?(entity_id)
     end
 
-    before %r{\A/discovery/([^/]+)(/.+)?\z} do |group, _|
+    before %r{/discovery/([^/]+)(/.+)?} do |group, _|
       halt 400 unless valid_group_name?(group) && uri?(params[:entityID])
       halt 404 unless group_configured?(group)
     end
 
     get '/discovery/:group' do |group|
+      unless known_sp?(params)
+        logger.info('Unable to locate the entityID '\
+          "'#{params[:entityID]}', halting request")
+        return redirect to('/error/invalid_entity_id')
+      end
+
+      if params[:return]&.present? && !valid_return_url(params)
+        logger.error("Return URL '#{params[:return]}' provided for "\
+                     "'#{params[:entityID]}' was invalid, rejecting value")
+        return redirect to('/error/invalid_return_url')
+      end
+
       id = record_request(request, params)
       @redis.set("id:#{id}", '1', ex: 3600)
       path = "/discovery/#{group}/#{id}"

@@ -3,7 +3,7 @@ html lang='en'
   head
     meta charset='utf-8'
     meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no'
-    title AAF Discovery Service
+    title Tuakiri Discovery Service
     == stylesheet_tag 'application.css'
     == javascript_tag 'application.js'
   body
@@ -13,13 +13,11 @@ html lang='en'
     div[id="footer" class="container center"]
       div[id="environment" class="inline"]  
         span
-          a href="https://www.aaf.edu.au" alt="Australian Access Federation (AAF) homepage"
-            | Australian Access Federation
+          a href="https://www.reannz.co.nz/products-and-services/tuakiri/" alt="Tuakiri page at REANNZ website"
+            | About Tuakiri
         span
           | #{@environment[:name]}
       div[id="status" class="inline"]
-        a href="#{@environment[:status_url]}" target="_blank" tabindex="-1" alt="Current systems status for the AAF"
-          | Current AAF status
-        a href="https://support.aaf.edu.au" alt="Get AAF support"
-          | Contact AAF support
+        a href="mailto:tuakiri@reannz.co.nz" alt="Contact Tuakiri support"
+          | Contact Tuakiri support
 

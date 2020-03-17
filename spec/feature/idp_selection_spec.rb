@@ -18,10 +18,13 @@ RSpec.feature 'selecting an idp', type: :feature do
   context 'when the group exists' do
     given(:group_name) { 'aaf' }
     given(:content) { 'Content here' }
+    given(:existing_sp) { build_sp_data(['sp', group_name]) }
+    given(:entity_id) { existing_sp[:entity_id] }
     include_context 'build_entity_data'
 
     background do
       redis.set("pages:group:#{group_name}", content)
+      redis.set("entities:#{group_name}", to_hash([existing_sp]).to_json)
     end
 
     it 'shows the content' do
