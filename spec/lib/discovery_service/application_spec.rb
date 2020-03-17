@@ -19,7 +19,7 @@ RSpec.describe DiscoveryService::Application do
 
   def date_in_3_months
     (Time.now + 3.months).in_time_zone('UTC')
-                         .strftime('%a, %d %b %Y %H:%M:%S -0000')
+                         .strftime('%a, %d %b %Y %H:%M:%S GMT')
   end
 
   let(:redis) { Redis::Namespace.new(:discovery_service, redis: Redis.new) }
@@ -272,7 +272,7 @@ RSpec.describe DiscoveryService::Application do
 
     let(:reset_cookie) do
       'selected_organisations=; path=/; max-age=0; '\
-      'expires=Thu, 01 Jan 1970 00:00:00 -0000'
+      'expires=Thu, 01 Jan 1970 00:00:00 GMT'
     end
 
     def run
@@ -621,7 +621,7 @@ RSpec.describe DiscoveryService::Application do
         context 'with cookie set for one group only' do
           let(:reset_cookie) do
             'selected_organisations=; path=/; max-age=0; '\
-            'expires=Thu, 01 Jan 1970 00:00:00 -0000'
+            'expires=Thu, 01 Jan 1970 00:00:00 GMT'
           end
 
           before do
