@@ -42,11 +42,6 @@ RSpec.describe DiscoveryService::Renderer::PageRenderer do
       expect(subject).to include('No organisations to select')
     end
 
-    it 'includes the link to status' do
-      expect(subject)
-        .to include("href=\"#{environment[:status_url]}\"")
-    end
-
     it 'includes the environment name' do
       expect(subject).to include(environment[:name].to_s)
     end

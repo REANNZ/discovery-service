@@ -111,11 +111,6 @@ RSpec.describe DiscoveryService::Application do
         run
         expect(last_response.body).to include(environment_name)
       end
-
-      it 'shows the status url' do
-        run
-        expect(last_response.body).to include(environment_status_url)
-      end
     end
 
     context 'with idps previously selected' do
@@ -299,11 +294,6 @@ RSpec.describe DiscoveryService::Application do
       it 'shows the environment name' do
         run
         expect(last_response.body).to include(environment_name)
-      end
-
-      it 'shows the status url' do
-        run
-        expect(last_response.body).to include(environment_status_url)
       end
     end
 
