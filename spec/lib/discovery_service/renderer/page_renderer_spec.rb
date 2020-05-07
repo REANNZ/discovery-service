@@ -35,7 +35,7 @@ RSpec.describe DiscoveryService::Renderer::PageRenderer do
     end
 
     it 'includes the title' do
-      expect(subject).to include('<title>AAF Discovery Service</title>')
+      expect(subject).to include('<title>Tuakiri Discovery Service</title>')
     end
 
     it 'shows that there are no idps' do
