@@ -430,7 +430,9 @@ RSpec.describe DiscoveryService::Application do
       let(:existing_sp) { build_sp_data(['sp', group_name]) }
       let(:entity_id) { existing_sp[:entity_id] }
       let(:return_url) { existing_sp[:discovery_response] }
-      let(:path_for_group) { "/discovery/#{group_name}?entityID=#{entity_id}&return=#{return_url}" }
+      let(:path_for_group) do
+        "/discovery/#{group_name}?entityID=#{entity_id}&return=#{return_url}"
+      end
 
       before do
         configure_group
@@ -443,7 +445,8 @@ RSpec.describe DiscoveryService::Application do
         expect(last_response.status).to eq(302)
         uri = URI.parse(last_response.location)
         expect(uri.path).to match(%r{/discovery/#{group_name}/[a-zA-Z0-9_-]+})
-        expect(CGI.unescape(uri.query)).to eq("entityID=#{entity_id}&return=#{return_url}")
+        expect(CGI.unescape(uri.query))
+          .to eq("entityID=#{entity_id}&return=#{return_url}")
       end
 
       it 'stores the id in redis' do
@@ -495,7 +498,9 @@ RSpec.describe DiscoveryService::Application do
       let(:existing_sp) { build_sp_data(['sp', group_name]) }
       let(:entity_id) { existing_sp[:entity_id] }
       let(:return_url) { Faker::Internet.url }
-      let(:path_for_group) { "/discovery/#{group_name}?entityID=#{entity_id}&return=#{return_url}" }
+      let(:path_for_group) do
+        "/discovery/#{group_name}?entityID=#{entity_id}&return=#{return_url}"
+      end
 
       before do
         configure_group
