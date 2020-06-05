@@ -23,7 +23,7 @@ div[id="sp"]
       ul[class="tabs"]
         - tag_groups.each_with_index do |tag_group, i|
           li[class="#{(i == 0 ?'current':'')} tab" data-tab="tag-#{tag_group[:tag]}"]
-           ==tag_group[:name]
+           ==CGI.escapeHTML(tag_group[:name])
 
     - tag_groups.each_with_index do |tag_group, i|
       div[class="tab-content #{(i == 0 ?'current':'')}" id="tag-#{tag_group[:tag]}"]
