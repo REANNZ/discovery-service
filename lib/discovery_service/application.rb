@@ -135,13 +135,9 @@ module DiscoveryService
 
     post '/discovery/:group/:unique_id' do |group, unique_id|
       return 400 unless valid_params?
-      unless entity_exists?(group, params[:user_idp])
-        return redirect to('/error/missing_idp')
-      end
+      return redirect to('/error/missing_idp') unless entity_exists?(group, params[:user_idp])
 
-      if params[:remember]
-        save_idp_selection(group, params[:user_idp], request, response)
-      end
+      save_idp_selection(group, params[:user_idp], request, response) if params[:remember]
 
       record_manual_selection(request, params, unique_id)
       handle_response(params)
