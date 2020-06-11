@@ -12,6 +12,7 @@ module DiscoveryService
     # Retrieves and filters metadata from SAML service
     class Updater
       attr_accessor :logger
+
       include DiscoveryService::Metadata::SAMLServiceClient
       include DiscoveryService::Metadata::EntityDataFilter
       include DiscoveryService::Renderer::PageRenderer
@@ -43,9 +44,7 @@ module DiscoveryService
 
       def save_entities(grouped_entities, tag_groups, environment)
         grouped_entities.each do |group, entities|
-          if !@entity_cache.entities_exist?(group) || changed?(entities, group)
-            save_entities_content(group, entities)
-          end
+          save_entities_content(group, entities) if !@entity_cache.entities_exist?(group) || changed?(entities, group)
           save_group_page_content(group, entities, tag_groups[group],
                                   environment)
           update_expiry(group)
