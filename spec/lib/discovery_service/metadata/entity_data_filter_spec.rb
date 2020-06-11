@@ -9,6 +9,7 @@ RSpec.describe DiscoveryService::Metadata::EntityDataFilter do
     let(:klass) do
       Class.new do
         attr_accessor :logger
+
         include DiscoveryService::Metadata::EntityDataFilter
         def initialize(logger)
           @logger = logger
