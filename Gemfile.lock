@@ -130,7 +130,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (4.2.0)
+    redis (4.1.3)
     redis-namespace (1.7.0)
       redis (>= 3.0.4)
     ref (2.0.0)
@@ -258,7 +258,7 @@ DEPENDENCIES
   rails-assets-jquery.scrollbar!
   rails-assets-mousetrap!
   rails-assets-picnic!
-  redis
+  redis (= 4.1.3)
   redis-namespace
   rspec
   rubocop-faker
