@@ -8,7 +8,7 @@ gem 'unicorn', require: false
 
 gem 'aws-sdk', '~> 2', require: false
 
-gem 'redis'
+gem 'redis', '4.1.3'
 gem 'redis-namespace'
 gem 'slim'
 
