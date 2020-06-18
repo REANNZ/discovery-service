@@ -8,6 +8,7 @@ RSpec.describe DiscoveryService::Metadata::SAMLServiceClient do
     let(:klass) do
       Class.new do
         attr_accessor :logger
+
         include DiscoveryService::Metadata::SAMLServiceClient
         def initialize(logger)
           @logger = logger

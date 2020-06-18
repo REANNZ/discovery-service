@@ -8,14 +8,14 @@ gem 'unicorn', require: false
 
 gem 'aws-sdk', '~> 2', require: false
 
-gem 'redis'
+gem 'redis', '4.1.3'
 gem 'redis-namespace'
 gem 'slim'
 
-gem 'activesupport', '~> 5.1.0'
+gem 'activesupport', '~> 5.2.4'
 gem 'hashdiff'
 gem 'json-jwt'
-gem 'rack', '~> 1.6'
+gem 'rack'
 
 gem 'sinatra-asset-pipeline'
 gem 'sprockets-helpers'
