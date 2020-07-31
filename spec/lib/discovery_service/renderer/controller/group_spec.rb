@@ -75,7 +75,6 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
       context 'the tag groups' do
         subject { run.tag_groups }
         it 'get filtered' do
-          p subject
           expect(subject).to eq([tag_group_1])
         end
       end
