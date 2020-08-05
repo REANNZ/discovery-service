@@ -274,7 +274,7 @@ RSpec.describe DiscoveryService::Metadata::Updater do
       let(:response) { { status: 400, body: JSON.generate([]) } }
 
       it 'propagates the exception' do
-        expect { run }.to raise_error(Net::HTTPServerException)
+        expect { run }.to raise_error(Net::HTTPClientException)
         expect(logger).to have_received(:error)
       end
     end

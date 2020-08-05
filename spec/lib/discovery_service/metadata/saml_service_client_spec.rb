@@ -72,7 +72,7 @@ RSpec.describe DiscoveryService::Metadata::SAMLServiceClient do
       end
 
       it 'propagates the exception' do
-        expect { run }.to raise_error(Net::HTTPServerException)
+        expect { run }.to raise_error(Net::HTTPClientException)
         expect(logger).to have_received(:error)
       end
     end

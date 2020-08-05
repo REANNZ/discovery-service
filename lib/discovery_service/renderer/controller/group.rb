@@ -13,22 +13,29 @@ module DiscoveryService
         def generate_group_model(entities, lang, tag_groups)
           result = { idps: [], sps: [] }
           tag_set = Set.new
-          entities.nil? || entities.each_with_object(result) do |e, hash|
-            entity_type = entity_type_from_tags(e)
-            next unless entity_type
+          entities.nil? || entities.each_with_object(result) do |entity, hash|
+            entity_types = entity_types_from_tags(entity)
+            next if entity_types.empty?
 
-            entry = build_entry(e, lang, entity_type)
-            hash[entity_type] << entry
-            tag_set.merge(entry[:tags])
+            entity_types.each { |et| generate_entity_model(entity, hash, tag_set, lang, et) }
           end
+
           build_model(result, tag_groups, tag_set)
         end
 
         private
 
-        def entity_type_from_tags(entity)
-          return :sps if entity[:tags].include?('sp')
-          return :idps if entity[:tags].include?('idp')
+        def generate_entity_model(entity, hash, tag_set, lang, entity_type)
+          entry = build_entry(entity, lang, entity_type)
+          hash[entity_type] << entry
+          tag_set.merge(entry[:tags])
+        end
+
+        def entity_types_from_tags(entity)
+          entity_types = []
+          entity_types.push(:sps) if entity[:tags].include?('sp')
+          entity_types.push(:idps) if entity[:tags].include?('idp')
+          entity_types
         end
 
         def build_model(result, tag_groups, tag_set)
