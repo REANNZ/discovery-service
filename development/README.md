@@ -11,6 +11,18 @@ The discovery service works differently to most web applications:
 You will require a ruby and redis installation on the machine you're developing
 on. For developers on OSX rbenv and homebrew will assist here.
 
+You may need to create ~/.aaf/event_encryption_key.pem, if so:
+
+```
+openssl genrsa -out ~/.aaf/event_encryption_key.pem 2048
+```
+
+Starting Redis using Homebrew install:
+
+```
+redis-server /usr/local/etc/redis.conf
+```
+
 ## Development process
 
 1. Run `./bin/setup` to configure your local environment.
