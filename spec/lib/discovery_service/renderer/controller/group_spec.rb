@@ -69,6 +69,17 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
       end
     end
 
+    context 'with entity acting in multiple roles tag group' do
+      let(:idp_sp) { build_idp_data(['idp', 'sp', tag_group_1[:tag]]) }
+      let(:entities) { [idp_sp] }
+      context 'the tag groups' do
+        subject { run.tag_groups }
+        it 'get filtered' do
+          expect(subject).to eq([tag_group_1])
+        end
+      end
+    end
+
     context 'with multiple entities belonging in multiple tag groups' do
       let(:idp1) { build_idp_data(['idp', tag_group_1[:tag]]) }
       let(:idp2) { build_idp_data(['idp', tag_group_2[:tag]]) }

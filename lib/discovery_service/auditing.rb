@@ -36,11 +36,20 @@ module DiscoveryService
 
     def base_data(request, params)
       {
-        user_agent: request.user_agent,
+        user_agent: request.user_agent&.encode(Encoding.find('ASCII'), encoding_options),
         ip: request.ip,
         initiating_sp: params[:entityID],
         timestamp: Time.now.utc.xmlschema,
         group: params[:group]
+      }
+    end
+
+    def encoding_options
+      {
+        invalid: :replace, # Replace invalid byte sequences - important for UA being presented with UTF8 char
+        undef: :replace, # Replace anything not defined in ASCII
+        replace: '',
+        universal_newline: true
       }
     end
   end
