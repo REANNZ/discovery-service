@@ -35,8 +35,10 @@ module DiscoveryService
     end
 
     def base_data(request, params)
+      ua = request.user_agent&.encode(Encoding.find('ASCII'), **encoding_options)
+
       {
-        user_agent: request.user_agent&.encode(Encoding.find('ASCII'), encoding_options),
+        user_agent: ua,
         ip: request.ip,
         initiating_sp: params[:entityID],
         timestamp: Time.now.utc.xmlschema,
