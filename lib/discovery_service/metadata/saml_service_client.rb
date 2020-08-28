@@ -16,7 +16,7 @@ module DiscoveryService
           response.value # Raise exception on HTTP error
           JSON.parse(response.body, symbolize_names: true)
         end
-      rescue Net::HTTPServerException => e
+      rescue Net::HTTPClientException => e
         log_error(e, saml_service_url)
         raise e
       end
