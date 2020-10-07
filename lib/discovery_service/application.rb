@@ -59,6 +59,10 @@ module DiscoveryService
       group_configured?(group) && @entity_cache.group_page_exists?(group)
     end
 
+    before do
+      response['Strict-Transport-Security'] = 'max-age=31556952; includeSubDomains'
+    end
+
     get '/' do
       redirect to('/discovery')
     end
