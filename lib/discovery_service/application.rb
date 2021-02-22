@@ -17,8 +17,7 @@ module DiscoveryService
     include DiscoveryService::Auditing
     include DiscoveryService::EmbeddedWAYF
 
-    attr_reader :redis
-    attr_reader :logger
+    attr_reader :redis, :logger
 
     set :assets_precompile,
         %w[application.js application.css]

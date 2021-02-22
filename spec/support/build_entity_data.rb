@@ -33,7 +33,7 @@ RSpec.shared_context 'build_entity_data' do
   end
 
   def to_hash(entities)
-    Hash[entities.map { |e| [e[:entity_id], e.except(:entity_id)] }]
+    entities.map { |e| [e[:entity_id], e.except(:entity_id)] }.to_h
   end
 
   def build_entity_data(tags = nil, specified_lang = nil, name = nil)
