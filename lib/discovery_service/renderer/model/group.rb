@@ -5,9 +5,7 @@ module DiscoveryService
     module Model
       # Model for the group page
       class Group
-        attr_accessor :idps
-        attr_accessor :sps
-        attr_accessor :tag_groups
+        attr_accessor :idps, :sps, :tag_groups
 
         include DiscoveryService::Renderer::Helpers::Group
 

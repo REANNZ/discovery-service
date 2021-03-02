@@ -8,17 +8,17 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
       Class.new { include DiscoveryService::Renderer::Controller::Group }
     end
 
-    let(:tag_group_1) do
+    let(:tag_group1) do
       { name: Faker::Address.country,
         tag: Faker::Lorem.characters(number: 10) }
     end
 
-    let(:tag_group_2) do
+    let(:tag_group2) do
       { name: Faker::Address.country, tag:
           Faker::Lorem.characters(number: 10) }
     end
 
-    let(:tag_groups) { [tag_group_1, tag_group_2] }
+    let(:tag_groups) { [tag_group1, tag_group2] }
     let(:lang) { Faker::Lorem.characters(number: 2) }
 
     def run
@@ -58,38 +58,38 @@ RSpec.describe DiscoveryService::Renderer::Controller::Group do
     end
 
     context 'with entities belonging in a tag group' do
-      let(:idp) { build_idp_data(['idp', tag_group_1[:tag]]) }
-      let(:sp) { build_idp_data(['sp', tag_group_1[:tag]]) }
+      let(:idp) { build_idp_data(['idp', tag_group1[:tag]]) }
+      let(:sp) { build_idp_data(['sp', tag_group1[:tag]]) }
       let(:entities) { [idp, sp] }
       context 'the tag groups' do
         subject { run.tag_groups }
         it 'get filtered' do
-          expect(subject).to eq([tag_group_1])
+          expect(subject).to eq([tag_group1])
         end
       end
     end
 
     context 'with entity acting in multiple roles tag group' do
-      let(:idp_sp) { build_idp_data(['idp', 'sp', tag_group_1[:tag]]) }
+      let(:idp_sp) { build_idp_data(['idp', 'sp', tag_group1[:tag]]) }
       let(:entities) { [idp_sp] }
       context 'the tag groups' do
         subject { run.tag_groups }
         it 'get filtered' do
-          expect(subject).to eq([tag_group_1])
+          expect(subject).to eq([tag_group1])
         end
       end
     end
 
     context 'with multiple entities belonging in multiple tag groups' do
-      let(:idp1) { build_idp_data(['idp', tag_group_1[:tag]]) }
-      let(:idp2) { build_idp_data(['idp', tag_group_2[:tag]]) }
-      let(:sp1) { build_idp_data(['sp', tag_group_1[:tag]]) }
-      let(:sp2) { build_idp_data(['sp', tag_group_2[:tag]]) }
+      let(:idp1) { build_idp_data(['idp', tag_group1[:tag]]) }
+      let(:idp2) { build_idp_data(['idp', tag_group2[:tag]]) }
+      let(:sp1) { build_idp_data(['sp', tag_group1[:tag]]) }
+      let(:sp2) { build_idp_data(['sp', tag_group2[:tag]]) }
       let(:entities) { [idp1, sp1, idp2, sp2] }
       context 'the tag groups' do
         subject { run.tag_groups }
         it 'get filtered' do
-          expect(subject).to eq([tag_group_1, tag_group_2])
+          expect(subject).to eq([tag_group1, tag_group2])
         end
       end
     end
