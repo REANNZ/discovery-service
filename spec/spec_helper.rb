@@ -10,7 +10,7 @@ ENV['APP_ENV'] = 'test'
 Bundler.require(:test)
 Dir['./spec/support/*.rb'].sort.each { |f| require f }
 
-require_relative '../init.rb'
+require_relative '../init'
 
 require 'fakeredis/rspec'
 

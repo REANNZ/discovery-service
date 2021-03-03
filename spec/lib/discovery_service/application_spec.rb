@@ -87,6 +87,11 @@ RSpec.describe DiscoveryService::Application do
         .to start_with('application/javascript')
       expect(last_response.body).to include('AAF Embedded WAYF')
     end
+
+    it 'sets HSTS header' do
+      run
+      expect(last_response.headers['Strict-Transport-Security']).to eq('max-age=31556952; includeSubDomains')
+    end
   end
 
   describe 'GET /discovery' do
@@ -100,6 +105,11 @@ RSpec.describe DiscoveryService::Application do
       get path
     end
 
+    it 'sets HSTS header' do
+      run
+      expect(last_response.headers['Strict-Transport-Security']).to eq('max-age=31556952; includeSubDomains')
+    end
+
     context 'with no idps previously selected' do
       it 'shows that there are no organisations selected' do
         run
@@ -110,6 +120,11 @@ RSpec.describe DiscoveryService::Application do
       it 'shows the environment name' do
         run
         expect(last_response.body).to include(environment_name)
+      end
+
+      it 'sets HSTS header' do
+        run
+        expect(last_response.headers['Strict-Transport-Security']).to eq('max-age=31556952; includeSubDomains')
       end
     end
 
@@ -123,6 +138,7 @@ RSpec.describe DiscoveryService::Application do
           run
           expect(last_response.body)
             .to include('You have no saved organisations')
+          expect(last_response.headers['Strict-Transport-Security']).to eq('max-age=31556952; includeSubDomains')
         end
       end
 
@@ -138,6 +154,7 @@ RSpec.describe DiscoveryService::Application do
           run
           expect(last_response.body)
             .to include('You have no saved organisations')
+          expect(last_response.headers['Strict-Transport-Security']).to eq('max-age=31556952; includeSubDomains')
         end
       end
 
@@ -188,6 +205,10 @@ RSpec.describe DiscoveryService::Application do
                             existing_entity[:names].first[:value]
                           ))
           end
+
+          it 'sets HSTS header' do
+            expect(last_response.headers['Strict-Transport-Security']).to eq('max-age=31556952; includeSubDomains')
+          end
         end
       end
 
@@ -231,6 +252,10 @@ RSpec.describe DiscoveryService::Application do
           expect(last_response.body).to include('When you access a service, '\
           'you will be automatically sent to one of these organisations to'\
           ' log in.')
+        end
+
+        it 'sets HSTS header' do
+          expect(last_response.headers['Strict-Transport-Security']).to eq('max-age=31556952; includeSubDomains')
         end
       end
 
