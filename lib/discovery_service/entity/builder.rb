@@ -6,11 +6,12 @@ module DiscoveryService
     module Builder
       def build_entry(entity, lang, entity_type)
         entry = base_entry(entity, lang)
-        if entity_type == :sps
+        case entity_type
+        when :sps
           set_description(entity, entry, lang)
           set_information_url(entity, entry, lang)
           set_privacy_statement_url(entity, entry, lang)
-        elsif entity_type == :idps
+        when :idps
           entry[:geolocations] = geolocation(entity) if entity[:geolocations]
         end
         entry
