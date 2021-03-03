@@ -17,8 +17,7 @@ module DiscoveryService
     include DiscoveryService::Auditing
     include DiscoveryService::EmbeddedWAYF
 
-    attr_reader :redis
-    attr_reader :logger
+    attr_reader :redis, :logger
 
     set :assets_precompile,
         %w[application.js application.css]
@@ -57,6 +56,10 @@ module DiscoveryService
 
     def group_exists?(group)
       group_configured?(group) && @entity_cache.group_page_exists?(group)
+    end
+
+    before do
+      response['Strict-Transport-Security'] = 'max-age=31556952; includeSubDomains'
     end
 
     get '/' do

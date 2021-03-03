@@ -21,12 +21,12 @@ module DiscoveryService
         raise e
       end
 
-      def with_saml_service_client(url)
+      def with_saml_service_client(url, &block)
         client = Net::HTTP.new(url.host, url.port)
         client.use_ssl = (url.scheme == 'https')
         client.read_timeout = 120
         logger.info "Invoking SAML Service (#{url})"
-        client.start { |http| yield http }
+        client.start(&block)
       end
 
       def log_error(error, saml_service_url)

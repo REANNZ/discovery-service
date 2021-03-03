@@ -5,7 +5,7 @@ require 'bundler/setup'
 
 Bundler.require(:default)
 
-require_relative './init.rb'
+require_relative './init'
 require 'discovery_service'
 
 use Rack::Deflater
