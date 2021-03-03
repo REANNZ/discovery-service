@@ -55,18 +55,18 @@ RSpec.describe DiscoveryService::Renderer::PageRenderer do
       let(:group_name) { Faker::Lorem.word }
       let(:select_button_class) { 'select_idp_button' }
 
-      let(:idp_1) do
+      let(:idp1) do
         { name: CGI.escapeHTML(Faker::University.name),
           entity_id: Faker::Internet.url,
           tags: %i[tag1 tag2] }
       end
-      let(:idp_2) do
+      let(:idp2) do
         { name: CGI.escapeHTML(Faker::University.name),
           entity_id: Faker::Internet.url,
           tags: %i[tag1 tag2] }
       end
 
-      let(:idps) { [idp_1, idp_2] }
+      let(:idps) { [idp1, idp2] }
 
       let(:expected_open_form_tag) do
         '<form class="idp_selection_form" method="POST" tabindex="1">'
@@ -81,17 +81,17 @@ RSpec.describe DiscoveryService::Renderer::PageRenderer do
       end
 
       it 'includes the organisations to select' do
-        expect(subject).to include(idp_1[:name])
-        expect(subject).to include(idp_2[:name])
+        expect(subject).to include(idp1[:name])
+        expect(subject).to include(idp2[:name])
       end
 
       it 'includes a submit button for each idp' do
         expect(subject).to include("<button class=\"#{select_button_class}\""\
           ' name="user_idp" tabindex="2" type="submit"'\
-          " value=\"#{idp_1[:entity_id]}\">Select</button>")
+          " value=\"#{idp1[:entity_id]}\">Select</button>")
         expect(subject).to include("<button class=\"#{select_button_class}\""\
           ' name="user_idp" tabindex="3" type="submit"'\
-          " value=\"#{idp_2[:entity_id]}\">Select</button>")
+          " value=\"#{idp2[:entity_id]}\">Select</button>")
       end
 
       it 'includes the main (javascript enabled) idp selection button' do
@@ -101,20 +101,20 @@ RSpec.describe DiscoveryService::Renderer::PageRenderer do
       end
 
       it 'includes the organisations to select' do
-        expect(subject).to include(idp_1[:name])
-        expect(subject).to include(idp_2[:name])
+        expect(subject).to include(idp1[:name])
+        expect(subject).to include(idp2[:name])
       end
 
       context 'containing a name that has already been escaped' do
         let(:lang) { 'en' }
 
-        let(:idp_1) do
+        let(:idp1) do
           { name: 'James&#39;s IdP', entity_id: Faker::Internet.url,
             tags: [:tag1] }
         end
 
         it 'does not get escaped again' do
-          expect(subject).to include(idp_1[:name])
+          expect(subject).to include(idp1[:name])
         end
       end
 
